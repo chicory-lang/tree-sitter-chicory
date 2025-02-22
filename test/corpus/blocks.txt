@@ -1,0 +1,51 @@
+===================
+Simple block expressions
+===================
+
+let x = {
+  let y = 1
+  let z = 2
+  y + z
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (block_expression
+      (let_assignment
+        (identifier)
+        (number))
+      (let_assignment
+        (identifier)
+        (number))
+      (binary_expression
+        (identifier)
+        (identifier)))))
+
+===================
+Blocks in functions
+===================
+
+let add = (x, y) => {
+  let sum = x + y
+  sum
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (function_expression
+      (parameter_list
+        (identifier)
+        (identifier))
+      (block_expression
+        (let_assignment
+          (identifier)
+          (binary_expression
+            (identifier)
+            (identifier)))
+        (identifier)))))

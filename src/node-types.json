@@ -118,6 +118,10 @@
             "named": true
           },
           {
+            "type": "block_expression",
+            "named": true
+          },
+          {
             "type": "call_expression",
             "named": true
           },
@@ -148,6 +152,10 @@
             "named": true
           },
           {
+            "type": "block_expression",
+            "named": true
+          },
+          {
             "type": "call_expression",
             "named": true
           },
@@ -172,6 +180,57 @@
     }
   },
   {
+    "type": "block_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "const_declaration",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "let_assignment",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "type_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "call_expression",
     "named": true,
     "fields": {
@@ -185,6 +244,10 @@
           },
           {
             "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "block_expression",
             "named": true
           },
           {
@@ -244,6 +307,10 @@
             "named": true
           },
           {
+            "type": "block_expression",
+            "named": true
+          },
+          {
             "type": "call_expression",
             "named": true
           },
@@ -277,6 +344,10 @@
         "types": [
           {
             "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "block_expression",
             "named": true
           },
           {
@@ -338,6 +409,10 @@
         "types": [
           {
             "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "block_expression",
             "named": true
           },
           {
@@ -553,6 +628,10 @@
     "fields": {}
   },
   {
+    "type": "\n",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -606,11 +685,11 @@
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "string",

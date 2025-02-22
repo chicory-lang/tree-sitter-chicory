@@ -3,7 +3,8 @@ module.exports = grammar({
   extras: ($) => [/\s/, $.comment],
 
   conflicts: ($) => [
-    [$._type_expression, $.adt_option]
+    [$._type_expression, $.adt_option],
+    [$.adt_option]  // Allow ambiguity in ADT option parsing
   ],
 
   rules: {
@@ -52,7 +53,8 @@ module.exports = grammar({
     _expression: ($) => choice(
       $._primary_expression,
       $.binary_expression,
-      $.call_expression
+      $.call_expression,
+      $.block_expression
     ),
 
     _primary_expression: ($) =>
@@ -71,12 +73,12 @@ module.exports = grammar({
       field('body', $._expression)
     ),
 
-    call_expression: ($) => seq(
+    call_expression: ($) => prec(2, seq(
       field('function', $.identifier),
       '(',
       field('arguments', optional(commaSep1($._expression))),
       ')'
-    ),
+    )),
 
     parameter_list: ($) => commaSep1($.identifier),
 
@@ -140,6 +142,15 @@ module.exports = grammar({
         ":",
         field("type", choice($.primitive_type, $.type_identifier)),
       ),
+
+    block_expression: ($) => seq(
+      '{',
+      optional(seq(
+        repeat(seq($._statement, optional('\n'))),
+        $._expression
+      )),
+      '}'
+    ),
   },
 });
 
