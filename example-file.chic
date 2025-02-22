@@ -1,0 +1,93 @@
+import { useState } from "preact/hooks"
+
+// Primitive Types
+type Age = number
+type Name = string
+type Active = boolean
+
+// Tuple Types
+type Point2D = [number, number]
+type Point3D = [number, number, number]
+type Location = [string, number, number,]  // with trailing comma
+type Mixed = [Point2D, string, number]
+
+// Record Types - Simple
+type Person = {
+  name: string,
+  age: number,
+  active: boolean
+}
+
+// Record Types - With Type References
+type Employee = {
+  id: number,
+  person: Person,
+  department: string
+}
+
+// Record Types - Nested
+type Address = {
+  street: {
+    number: number,
+    name: string
+  },
+  city: string,
+  coords: [number, number]
+}
+
+// Record Types - Single Field
+type Counter = { value: number }
+
+// Record Types - Complex Nesting
+type UserProfile = {
+  personal: Person,
+  work: Employee,
+  addresses: {
+    home: Address,
+    work: Address
+  },
+  locations: [
+    [number, number],
+    string
+  ]
+}
+
+// ADT Types
+type Option = None | Some(number)
+type Result = Ok(string) | Err({ message: string })
+
+const user = "world"
+
+// Function with block body and pattern matching
+const greet = (name, style) => {
+  let greeting = match (style) {
+    Casual => "Hey",
+    Formal => "Hello",
+    Custom(text) => text,
+    _ => "Hi"
+  }
+  greeting + " " + name
+}
+
+// Pattern matching with literals and block expressions
+const describe = (value) =>
+  match (value) {
+    Some(42) => {
+      let msg = "Found the answer!"
+      msg
+    },
+    Some(x) => "Got " + x,
+    None => "Nothing here",
+    true => "Boolean true",
+    false => "Boolean false",
+    "hello" => "A greeting",
+    _ => "Something else",
+  }
+
+const App = () =>
+    match (user) {
+      "world" => <h1>{"Hello WORLD!"}</h1>,
+      _ => <h1>{"Hello " + user}</h1>
+    }
+  
+export { App, greet, describe }
