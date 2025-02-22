@@ -1,0 +1,110 @@
+===================
+Simple if expressions
+===================
+
+let x = if (true) 1 else 2
+let y = if (false) "yes" else "no"
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (if_expression
+      (identifier)
+      (number)
+      (number)))
+  (let_assignment
+    (identifier)
+    (if_expression
+      (identifier)
+      (string_literal)
+      (string_literal))))
+
+===================
+Nested if expressions
+===================
+
+let x = if (a) 
+  if (b) 1 
+  else 2
+else 3
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (if_expression
+      (identifier)
+      (if_expression
+        (identifier)
+        (number)
+        (number))
+      (number))))
+
+===================
+If expressions with blocks
+===================
+
+let x = if (condition) {
+  let y = 1
+  y + 2
+} else {
+  let z = 3
+  z + 4
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (if_expression
+      (identifier)
+      (block_expression
+        (let_assignment
+          (identifier)
+          (number))
+        (binary_expression
+          (identifier)
+          (number)))
+      (block_expression
+        (let_assignment
+          (identifier)
+          (number))
+        (binary_expression
+          (identifier)
+          (number))))))
+
+===================
+If-else if-else chains
+===================
+
+let x = if (a > 0) {
+  "positive"
+} else if (a < 0) {
+  "negative"
+} else {
+  "zero"
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (if_expression
+      (binary_expression
+        (identifier)
+        (number))
+      (block_expression
+        (string_literal))
+      (if_expression
+        (binary_expression
+          (identifier)
+          (number))
+        (block_expression
+          (string_literal))
+        (block_expression
+          (string_literal))))))

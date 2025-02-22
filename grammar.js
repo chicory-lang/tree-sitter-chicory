@@ -54,7 +54,8 @@ module.exports = grammar({
       $._primary_expression,
       $.binary_expression,
       $.call_expression,
-      $.block_expression
+      $.block_expression,
+      $.if_expression
     ),
 
     _primary_expression: ($) =>
@@ -82,13 +83,15 @@ module.exports = grammar({
 
     parameter_list: ($) => commaSep1($.identifier),
 
-    binary_expression: ($) => prec.left(1,
-      seq(
+    binary_expression: ($) => {
+      const operators = ['>', '<', '+']
+      const table = operators.map(operator => prec.left(1, seq(
         field('left', $._expression),
-        '+',
+        operator,
         field('right', $._expression)
-      )
-    ),
+      )))
+      return choice(...table)
+    },
 
     identifier: ($) => choice($._lower_identifier, $._upper_identifier),
 
@@ -142,6 +145,16 @@ module.exports = grammar({
         ":",
         field("type", choice($.primitive_type, $.type_identifier)),
       ),
+
+    if_expression: ($) => seq(
+      'if',
+      '(',
+      field('condition', $._expression),
+      ')',
+      field('consequence', $._expression),
+      'else',
+      field('alternative', $._expression)
+    ),
 
     block_expression: ($) => seq(
       '{',
