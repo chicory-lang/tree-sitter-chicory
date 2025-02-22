@@ -23,6 +23,46 @@ source = {git = "https://github.com/chicory-lang/tree-sitter-chicory" , rev="CHA
 3. Run `hx -g build` to build the grammar
 4. Copy the `queries` into `~/.config/helix/runtime/queries/chicory`
 
+### Neovim
+
+1. Add `chicory` to the list of `ensure_installed` languages in your `require('nvim-treesitter.configs').setup` block.
+
+2. Associate `.chic` files with `chicory`:
+
+```lua
+vim.filetype.add({
+  extension = {
+    chic = "chicory", -- Map `.chic` files to the `chicory` filetype
+  },
+})
+```
+
+3. Tell neovim where to find the Chicory parser:
+
+```lua
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.chicory = {
+  install_info = {
+    url = "https://github.com/chicory-lang/tree-sitter-chicory.git", -- Replace with your grammar repository
+    files = { "src/parser.c" },                                      -- Add other files like `src/scanner.c` if needed
+    branch = "main",                                                 -- Replace with the appropriate branch
+    generate_requires_npm = false,                                   -- Set to true if your grammar requires npm
+    requires_generate_from_grammar = false,                          -- Set to true if you need to generate the parser
+  },
+  filetype = "chicory",                                              -- Associate the parser with your language's filetype
+}
+```
+
+4. Put/link the queries in the right place (I used a symlink):
+
+```
+$ ln -s .config/nvim/queries/chicory $TREE_SITTER_CHICORY/queries
+```
+
+Note: You can also point the parser to a local copy of the `tree-sitter-chicory` repo instead of the github url.
+
+For more information, see https://github.com/nvim-treesitter/nvim-treesitter/#adding-parsers
+
 ## ANTLR Grammar Implementation Progress
 
 This section tracks the implementation of major language features from the ANTLR grammar.
