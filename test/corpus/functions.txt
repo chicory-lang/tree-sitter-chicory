@@ -38,3 +38,33 @@ let complex = (a, b, c) => a + b + c
           (identifier)
           (identifier))
         (identifier)))))
+
+===================
+Function calls
+===================
+
+let result = add(1, 2)
+let greeting = greet("world")
+let value = complex(1, 2, 3)
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (call_expression
+      (identifier)
+      (number)
+      (number)))
+  (let_assignment
+    (identifier)
+    (call_expression
+      (identifier)
+      (string_literal)))
+  (let_assignment
+    (identifier)
+    (call_expression
+      (identifier)
+      (number)
+      (number)
+      (number))))

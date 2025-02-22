@@ -51,7 +51,8 @@ module.exports = grammar({
 
     _expression: ($) => choice(
       $._primary_expression,
-      $.binary_expression
+      $.binary_expression,
+      $.call_expression
     ),
 
     _primary_expression: ($) =>
@@ -68,6 +69,13 @@ module.exports = grammar({
       ')',
       '=>',
       field('body', $._expression)
+    ),
+
+    call_expression: ($) => seq(
+      field('function', $.identifier),
+      '(',
+      field('arguments', optional(commaSep1($._expression))),
+      ')'
     ),
 
     parameter_list: ($) => commaSep1($.identifier),
