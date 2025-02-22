@@ -203,3 +203,105 @@ let handler = (result) =>
                 (string_literal)
                 (identifier)))
             (identifier)))))))
+
+===================
+Match with trailing comma and newlines
+===================
+
+let result = match (value) {
+  Some(x) => x,
+  None => 0,
+}
+
+let result2 = match (value) {
+
+  Some(x) =>
+    x + 1,
+
+  None =>
+    0
+
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (identifier)
+          (identifier))
+        (identifier))
+      (match_arm
+        (match_pattern
+          (identifier))
+        (number))))
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (identifier)
+          (identifier))
+        (binary_expression
+          (identifier)
+          (number)))
+      (match_arm
+        (match_pattern
+          (identifier))
+        (number)))))
+
+===================
+Match with mixed patterns
+===================
+
+let result = match (value) {
+  Some(42) => "found answer",
+  Some(x) => "found " + x,
+  None => "nothing",
+  true => "boolean true",
+  "hello" => "string hello",
+  _ => "anything else",
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (identifier)
+          (literal
+            (number)))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (identifier)
+          (identifier))
+        (binary_expression
+          (string_literal)
+          (identifier)))
+      (match_arm
+        (match_pattern
+          (identifier))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (literal))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (literal
+            (string_literal)))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (wildcard))
+        (string_literal)))))
