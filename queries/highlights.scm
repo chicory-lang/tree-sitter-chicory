@@ -2,6 +2,12 @@
 "type" @keyword
 "let" @keyword
 "const" @keyword
+"match" @keyword
+"import" @keyword
+"export" @keyword
+"from" @keyword
+"if" @keyword
+"else" @keyword
 
 ; Types
 (primitive_type) @type
@@ -14,9 +20,17 @@
 (adt_field
   name: (identifier) @property)
 
+; Match Patterns
+(match_pattern
+  (identifier) @constructor)  ; ADT constructors
+(match_pattern
+  (wildcard) @constant)       ; Wildcard _
+
 ; Literals
 (string_literal) @string
 (number) @number
+"true" @constant
+"false" @constant
 
 ; Comments
 (comment) @comment
