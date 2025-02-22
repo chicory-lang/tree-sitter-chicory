@@ -212,6 +212,10 @@
           "named": true
         },
         {
+          "type": "export_statement",
+          "named": true
+        },
+        {
           "type": "function_expression",
           "named": true
         },
@@ -221,6 +225,10 @@
         },
         {
           "type": "if_expression",
+          "named": true
+        },
+        {
+          "type": "import_statement",
           "named": true
         },
         {
@@ -352,6 +360,36 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "destructuring_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "export_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -534,6 +572,42 @@
     }
   },
   {
+    "type": "import_statement",
+    "named": true,
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "named": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "destructuring_import",
+            "named": true
+          }
+        ]
+      },
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "let_assignment",
     "named": true,
     "fields": {
@@ -682,6 +756,14 @@
           "named": true
         },
         {
+          "type": "export_statement",
+          "named": true
+        },
+        {
+          "type": "import_statement",
+          "named": true
+        },
+        {
           "type": "let_assignment",
           "named": true
         },
@@ -788,6 +870,10 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": "+",
     "named": false
   },
@@ -840,7 +926,19 @@
     "named": false
   },
   {
+    "type": "export",
+    "named": false
+  },
+  {
+    "type": "from",
+    "named": false
+  },
+  {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
     "named": false
   },
   {
@@ -849,11 +947,11 @@
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "string",

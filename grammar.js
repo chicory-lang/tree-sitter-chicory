@@ -11,7 +11,13 @@ module.exports = grammar({
     source_file: ($) => repeat($._statement),
 
     _statement: ($) =>
-      choice($.const_declaration, $.let_assignment, $.type_definition),
+      choice(
+        $.const_declaration,
+        $.let_assignment,
+        $.type_definition,
+        $.import_statement,
+        $.export_statement
+      ),
 
     let_assignment: ($) =>
       seq(
@@ -84,12 +90,15 @@ module.exports = grammar({
     parameter_list: ($) => commaSep1($.identifier),
 
     binary_expression: ($) => {
-      const operators = ['>', '<', '+']
-      const table = operators.map(operator => prec.left(1, seq(
-        field('left', $._expression),
-        operator,
-        field('right', $._expression)
-      )))
+      const operators = ['>', '<', '+', '*']
+      const table = operators.map(operator => prec.left(
+        operator === '*' ? 2 : 1,  // Higher precedence for multiplication
+        seq(
+          field('left', $._expression),
+          operator,
+          field('right', $._expression)
+        )
+      ))
       return choice(...table)
     },
 
@@ -162,6 +171,42 @@ module.exports = grammar({
         repeat(seq($._statement, optional('\n'))),
         $._expression
       )),
+      '}'
+    ),
+
+    import_statement: ($) => choice(
+      seq(
+        'import',
+        field('default', $.identifier),
+        'from',
+        field('source', $.string_literal)
+      ),
+      seq(
+        'import',
+        field('named', $.destructuring_import),
+        'from',
+        field('source', $.string_literal)
+      ),
+      seq(
+        'import',
+        field('default', $.identifier),
+        ',',
+        field('named', $.destructuring_import),
+        'from',
+        field('source', $.string_literal)
+      )
+    ),
+
+    destructuring_import: ($) => seq(
+      '{',
+      commaSep1($.identifier),
+      '}'
+    ),
+
+    export_statement: ($) => seq(
+      'export',
+      '{',
+      commaSep1($.identifier),
       '}'
     ),
   },

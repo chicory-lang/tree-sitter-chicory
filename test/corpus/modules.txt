@@ -1,0 +1,88 @@
+===================
+Simple imports
+===================
+
+import add from "math"
+import { max, min } from "math"
+import defaultFn, { helper1, helper2 } from "utils"
+
+---
+
+(source_file
+  (import_statement
+    (identifier)
+    (string_literal))
+  (import_statement
+    (destructuring_import
+      (identifier)
+      (identifier))
+    (string_literal))
+  (import_statement
+    (identifier)
+    (destructuring_import
+      (identifier)
+      (identifier))
+    (string_literal)))
+
+===================
+Simple exports
+===================
+
+let x = 1
+let y = 2
+export { x, y }
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (number))
+  (let_assignment
+    (identifier)
+    (number))
+  (export_statement
+    (identifier)
+    (identifier)))
+
+===================
+Mixed imports and exports
+===================
+
+import { sqrt } from "math"
+let square = (x) => x * x
+let distance = (x, y) => sqrt(square(x) + square(y))
+export { distance }
+
+---
+
+(source_file
+  (import_statement
+    (destructuring_import
+      (identifier))
+    (string_literal))
+  (let_assignment
+    (identifier)
+    (function_expression
+      (parameter_list
+        (identifier))
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (let_assignment
+    (identifier)
+    (function_expression
+      (parameter_list
+        (identifier)
+        (identifier))
+      (call_expression
+        (identifier)
+        (binary_expression
+          (call_expression
+            (identifier)
+            (identifier))
+          (call_expression
+            (identifier)
+            (identifier))))))
+  (export_statement
+    (identifier)))
