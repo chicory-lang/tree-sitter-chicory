@@ -1,0 +1,58 @@
+===================
+Const declaration
+===================
+
+const name = "test"
+const age = 25
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (string_literal))
+  (const_declaration
+    (identifier)
+    (number))
+)
+
+===================
+Let declarations
+===================
+
+let count = 42
+let name = "test"
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (number))
+  (let_assignment
+    (identifier)
+    (string_literal)))
+
+===================
+Mixed let and const
+===================
+
+let count = 42
+const name = "world"
+let value = 100
+const message = "hello"
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (number))
+  (const_declaration
+    (identifier)
+    (string_literal))
+  (let_assignment
+    (identifier)
+    (number))
+  (const_declaration
+    (identifier)
+    (string_literal)))

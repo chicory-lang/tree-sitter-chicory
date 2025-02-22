@@ -1,0 +1,324 @@
+===================
+Primitive types
+===================
+
+type Age = number
+type Name = string
+type Truth = boolean
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (primitive_type))
+  (type_definition
+    (type_identifier)
+    (primitive_type))
+  (type_definition
+    (type_identifier)
+    (primitive_type)))
+
+===================
+Tuple types
+===================
+
+type Point = [number, number]
+type NamedPoint = [string, number, number]
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (tuple_type
+      (primitive_type)
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (tuple_type
+      (primitive_type)
+      (primitive_type)
+      (primitive_type))))
+
+===================
+Tuple types with type references
+===================
+
+type Coord = [number, number]
+type Point = Coord
+type Location = [Point, string,]
+type Complex = [Point, number, String,]
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (tuple_type
+      (primitive_type)
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (type_identifier))
+  (type_definition
+    (type_identifier)
+    (tuple_type
+      (type_identifier)
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (tuple_type
+      (type_identifier)
+      (primitive_type)
+      (type_identifier))))
+
+===================
+Record types
+===================
+
+type Person = { name: string, age: number }
+type Employee = {
+  id: number,
+  person: Person,
+  department: string,
+}
+type Contact = { address: { street: string, city: string }, phone: string }
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (type_identifier))
+      (record_field
+        (identifier)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (record_type
+          (record_field
+            (identifier)
+            (primitive_type))
+          (record_field
+            (identifier)
+            (primitive_type))))
+      (record_field
+        (identifier)
+        (primitive_type)))))
+
+===================
+Record type variations
+===================
+
+type SingleField = { x: number }
+type WithTuple = { coords: [number, number] }
+type Multiline = {
+  first: string,
+  second: number,
+  tuple: [
+    string,
+    number,
+  ],
+  nested: {
+    x: number,
+    y: number
+  }
+}
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (tuple_type
+          (primitive_type)
+          (primitive_type)))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (tuple_type
+          (primitive_type)
+          (primitive_type)))
+      (record_field
+        (identifier)
+        (record_type
+          (record_field
+            (identifier)
+            (primitive_type))
+          (record_field
+            (identifier)
+            (primitive_type)))))))
+
+===================
+ADT types - basic variants
+===================
+
+type Shape = Circle | Square | Triangle
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier))
+      (adt_option
+        (type_identifier))
+      (adt_option
+        (type_identifier)))))
+
+===================
+ADT types - with fields
+===================
+
+type Option = 
+  | None
+  | Some(number)
+
+type Result =
+  | Ok(string)
+  | Error({ message: string, code: number })
+
+type Complex = 
+  | A
+  | B(number)
+  | C({ x: number, y: Point })
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier))
+      (adt_option
+        (type_identifier)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier)
+        (primitive_type))
+      (adt_option
+        (type_identifier)
+        (adt_fields
+          (adt_field
+            (identifier)
+            (primitive_type))
+          (adt_field
+            (identifier)
+            (primitive_type))))))
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier))
+      (adt_option
+        (type_identifier)
+        (primitive_type))
+      (adt_option
+        (type_identifier)
+        (adt_fields
+          (adt_field
+            (identifier)
+            (primitive_type))
+          (adt_field
+            (identifier)
+            (type_identifier)))))))
+
+===================
+ADT types - formatting variations
+===================
+
+type SingleVariant = | OnlyOne
+type NoLeadingPipe = JustThis
+
+type Spaced = One 
+  | Two 
+  | Three
+
+type MultiField = 
+  | Record({
+      name: string,
+      age: number,
+      parent: Person,
+      location: Point,
+    })
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier))))
+  (type_definition
+    (type_identifier)
+    (type_identifier))
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier))
+      (adt_option
+        (type_identifier))
+      (adt_option
+        (type_identifier))))
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier)
+        (adt_fields
+          (adt_field
+            (identifier)
+            (primitive_type))
+          (adt_field
+            (identifier)
+            (primitive_type))
+          (adt_field
+            (identifier)
+            (type_identifier))
+          (adt_field
+            (identifier)
+            (type_identifier)))))))

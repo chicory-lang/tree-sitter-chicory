@@ -1,0 +1,39 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "chicory",
+      "camelcase": "Chicory",
+      "title": "Chicory",
+      "scope": "source.chic",
+      "file-types": [
+        "chic"
+      ],
+      "injection-regex": "^chicory$",
+      "class-name": "TreeSitterChicory"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Chicory grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Jeffrey Mudge",
+        "url": "https://github.com/jeffnm"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/chicory-lang/tree-sitter-chicory"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
