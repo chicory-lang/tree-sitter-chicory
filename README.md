@@ -16,7 +16,7 @@ file-types=["chic"]
 
 [[grammar]]
 name = "chicory"
-source = {git = "https://github.com/jeffnm/tree-sitter-chicory" , rev="CHANGE ME: target commit hash"}
+source = {git = "https://github.com/chicory-lang/tree-sitter-chicory" , rev="CHANGE ME: target commit hash, probably latest for now"}
 ```
 
 2. Run `hx -g fetch` to update the grammar
