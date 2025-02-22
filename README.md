@@ -30,6 +30,7 @@ This section tracks the implementation of major language features from the ANTLR
 ### Implemented
 
 #### Types
+
 - Primitive types (number, string, boolean)
 - Tuple types (e.g., `[number, string]`)
 - Record types (e.g., `{ x: number, y: number }`)
@@ -39,24 +40,29 @@ This section tracks the implementation of major language features from the ANTLR
   - Variants with record fields (e.g., `type Result = Ok(string) | Error({ message: string })`)
 - Type references (uppercase identifiers)
 
-#### Statements
-- Let assignments (e.g., `let x = 42`)
-- Const declarations (e.g., `const PI = 3.14`)
+#### Expressions
 
-### To Be Implemented
-
-#### Expressions and Statements
-- Assignment statements (other than let/const)
-- Import statements
-- Export statements
-- Function calls
+- Match expressions (e.g., `match (value) { Some(x) => x + 1, None => 0 }`)
+  - Pattern matching on variants
+  - Pattern matching with literals
+  - Pattern matching with identifiers
 - Binary operations
-- Unary operations
+- Function calls
 - Literals (number, string, boolean)
 - Identifiers
 - Parenthesized expressions
 
+#### Statements
+- Let assignments (e.g., `let x = 42`)
+- Const declarations (e.g., `const PI = 3.14`)
+- Assignment statements
+- Import statements
+- Export statements
+
 #### Other Features
 - Comments (single-line and multi-line)
-- Whitespace handling
-- Error recovery
+
+### To Be Implemented
+
+- JSX expressions
+
