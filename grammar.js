@@ -61,7 +61,8 @@ module.exports = grammar({
       $.binary_expression,
       $.call_expression,
       $.block_expression,
-      $.if_expression
+      $.if_expression,
+      $.match_expression
     ),
 
     _primary_expression: ($) =>
@@ -172,6 +173,74 @@ module.exports = grammar({
         $._expression
       )),
       '}'
+    ),
+
+    match_expression: ($) => seq(
+      'match',
+      '(',
+      field('value', $._expression),
+      ')',
+      '{',
+      optional(seq(
+        $.match_arm,
+        repeat(seq(',', $.match_arm)),
+        optional(',')
+      )),
+      '}'
+    ),
+
+    match_arm: ($) => seq(
+      field('pattern', $.match_pattern),
+      '=>',
+      field('body', $._expression)
+    ),
+
+    match_pattern: ($) => choice(
+      $.wildcard,
+      $.literal,          // LiteralMatchPattern
+      $.identifier,       // BareAdtMatchPattern
+      seq(                // AdtWithParamMatchPattern
+        field('constructor', $.identifier),
+        '(',
+        field('param', $.identifier),
+        ')'
+      ),
+      seq(                // AdtWithLiteralMatchPattern
+        field('constructor', $.identifier),
+        '(',
+        field('param', $.literal),
+        ')'
+      )
+    ),
+
+    wildcard: ($) => '_',
+
+    literal: ($) => choice(
+      $.string_literal,
+      $.number,
+      'true',
+      'false'
+    ),
+
+    tuple_pattern: ($) => seq(
+      '[',
+      optional(commaSep1($.identifier)),
+      ']'
+    ),
+
+    record_pattern: ($) => seq(
+      '{',
+      commaSep1(choice(
+        $.identifier,
+        $.record_pattern_field
+      )),
+      '}'
+    ),
+
+    record_pattern_field: ($) => seq(
+      field('name', $.identifier),
+      ':',
+      field('value', choice($.number, $.identifier))
     ),
 
     import_statement: ($) => choice(

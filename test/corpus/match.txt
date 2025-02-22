@@ -1,0 +1,156 @@
+===================
+Simple match expressions
+===================
+
+let result = match (value) {
+  Some(x) => x + 1,
+  None => 0
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (identifier)
+          (identifier))
+        (binary_expression
+          (identifier)
+          (number)))
+      (match_arm
+        (match_pattern
+          (identifier))
+        (number)))))
+
+===================
+Match with block expressions
+===================
+
+let result = match (shape) {
+  Circle(r) => {
+    let area = r * r * 3
+    area
+  },
+  Rectangle(width) => {
+    let area = width * 10
+    area
+  }
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (identifier)
+          (identifier))
+        (block_expression
+          (let_assignment
+            (identifier)
+            (binary_expression
+              (binary_expression
+                (identifier)
+                (identifier))
+              (number)))
+          (identifier)))
+      (match_arm
+        (match_pattern
+          (identifier)
+          (identifier))
+        (block_expression
+          (let_assignment
+            (identifier)
+            (binary_expression
+              (identifier)
+              (number)))
+          (identifier))))))
+
+===================
+Match with literals and wildcards
+===================
+
+let result = match (value) {
+  true => "yes",
+  false => "no",
+  "hello" => "greeting",
+  42 => "answer",
+  _ => "anything else"
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (literal))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (literal))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (literal
+            (string_literal)))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (literal
+            (number)))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (wildcard))
+        (string_literal)))))
+
+===================
+Match with literal in constructor
+===================
+
+let result = match (opt) {
+  Some(42) => "found answer",
+  Some("hello") => "found greeting",
+  Some(true) => "found truth",
+  None => "found nothing"
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (match_expression
+      (identifier)
+      (match_arm
+        (match_pattern
+          (identifier)
+          (literal
+            (number)))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (identifier)
+          (literal
+            (string_literal)))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (identifier)
+          (literal))
+        (string_literal))
+      (match_arm
+        (match_pattern
+          (identifier))
+        (string_literal)))))
