@@ -49,10 +49,36 @@ module.exports = grammar({
 
     type_identifier: ($) => $._upper_identifier,
 
-    _expression: ($) => choice($._primary_expression),
+    _expression: ($) => choice(
+      $._primary_expression,
+      $.binary_expression
+    ),
 
     _primary_expression: ($) =>
-      choice($.number, $.string_literal, $.identifier),
+      choice(
+        $.number,
+        $.string_literal,
+        $.identifier,
+        $.function_expression
+      ),
+
+    function_expression: ($) => seq(
+      '(',
+      field('parameters', optional($.parameter_list)),
+      ')',
+      '=>',
+      field('body', $._expression)
+    ),
+
+    parameter_list: ($) => commaSep1($.identifier),
+
+    binary_expression: ($) => prec.left(1,
+      seq(
+        field('left', $._expression),
+        '+',
+        field('right', $._expression)
+      )
+    ),
 
     identifier: ($) => choice($._lower_identifier, $._upper_identifier),
 

@@ -1,0 +1,40 @@
+===================
+Function expressions
+===================
+
+let add = (x, y) => x + y
+let greet = (name) => "Hello " + name
+let complex = (a, b, c) => a + b + c
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (function_expression
+      (parameter_list
+        (identifier)
+        (identifier))
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (let_assignment
+    (identifier)
+    (function_expression
+      (parameter_list
+        (identifier))
+      (binary_expression
+        (string_literal)
+        (identifier))))
+  (let_assignment
+    (identifier)
+    (function_expression
+      (parameter_list
+        (identifier)
+        (identifier)
+        (identifier))
+      (binary_expression
+        (binary_expression
+          (identifier)
+          (identifier))
+        (identifier)))))
