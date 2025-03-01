@@ -4,7 +4,7 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$._type_expression, $.adt_option],
-    [$.adt_option]  // Allow ambiguity in ADT option parsing
+    [$.adt_option],  // Allow ambiguity in ADT option parsing
   ],
 
   rules: {
@@ -62,7 +62,8 @@ module.exports = grammar({
       $.call_expression,
       $.block_expression,
       $.if_expression,
-      $.match_expression
+      $.match_expression,
+      $.jsx_element
     ),
 
     _primary_expression: ($) =>
@@ -70,34 +71,36 @@ module.exports = grammar({
         $.number,
         $.string_literal,
         $.identifier,
-        $.function_expression
+        $.function_expression,
+        seq('(', $._expression, ')')
       ),
 
     function_expression: ($) => seq(
       '(',
-      field('parameters', optional($.parameter_list)),
+      optional($.parameter_list),
       ')',
       '=>',
-      field('body', $._expression)
+      $._expression
     ),
 
-    call_expression: ($) => prec(2, seq(
-      field('function', $.identifier),
+    call_expression: ($) => prec.left(3, seq(  // Higher precedence than binary_expression
+      field('function', $._expression),
       '(',
-      field('arguments', optional(commaSep1($._expression))),
+      optional(commaSep1($._expression)),
       ')'
     )),
 
-    parameter_list: ($) => commaSep1($.identifier),
+    parameter_list: ($) => prec.right(2,  // Higher precedence than _primary_expression
+      commaSep1($.identifier)
+    ),
 
     binary_expression: ($) => {
       const operators = ['>', '<', '+', '*']
-      const table = operators.map(operator => prec.left(
-        operator === '*' ? 2 : 1,  // Higher precedence for multiplication
+      const table = operators.map(operator => prec.left(1,  // Lower precedence than call_expression
         seq(
-          field('left', $._expression),
+          field('left', choice($._expression, $.string_literal)),
           operator,
-          field('right', $._expression)
+          field('right', choice($._expression, $.string_literal))
         )
       ))
       return choice(...table)
@@ -200,15 +203,15 @@ module.exports = grammar({
       $.literal,          // LiteralMatchPattern
       $.identifier,       // BareAdtMatchPattern
       seq(                // AdtWithParamMatchPattern
-        field('constructor', $.identifier),
+        $.identifier,
         '(',
-        field('param', $.identifier),
+        $.identifier,
         ')'
       ),
       seq(                // AdtWithLiteralMatchPattern
-        field('constructor', $.identifier),
+        $.identifier,
         '(',
-        field('param', $.literal),
+        $.literal,
         ')'
       )
     ),
@@ -216,32 +219,97 @@ module.exports = grammar({
     wildcard: ($) => '_',
 
     literal: ($) => choice(
-      $.string_literal,
       $.number,
+      $.string_literal,
       'true',
       'false'
     ),
 
-    tuple_pattern: ($) => seq(
-      '[',
-      optional(commaSep1($.identifier)),
-      ']'
+    import_statement: ($) => choice(
+      seq(
+        'import',
+        field('default', $.identifier),
+        'from',
+        field('source', $.string_literal)
+      ),
+      seq(
+        'import',
+        field('named', $.destructuring_import),
+        'from',
+        field('source', $.string_literal)
+      ),
+      seq(
+        'import',
+        field('default', $.identifier),
+        ',',
+        field('named', $.destructuring_import),
+        'from',
+        field('source', $.string_literal)
+      )
     ),
 
-    record_pattern: ($) => seq(
+    destructuring_import: ($) => seq(
       '{',
-      commaSep1(choice(
-        $.identifier,
-        $.record_pattern_field
-      )),
+      commaSep1($.identifier),
       '}'
     ),
 
-    record_pattern_field: ($) => seq(
-      field('name', $.identifier),
-      ':',
-      field('value', choice($.number, $.identifier))
+    export_statement: ($) => seq(
+      'export',
+      '{',
+      commaSep1($.identifier),
+      '}'
     ),
+
+    jsx_element: ($) => choice(
+      seq(
+        $.jsx_opening_element,
+        repeat(choice(
+          $.jsx_element,
+          $.jsx_expression,
+          $.jsx_text
+        )),
+        $.jsx_closing_element
+      ),
+      $.jsx_self_closing_element
+    ),
+
+    jsx_opening_element: ($) => seq(
+      '<',
+      field('name', $.identifier),
+      repeat($.jsx_attribute),
+      '>'
+    ),
+
+    jsx_closing_element: ($) => seq(
+      '</',
+      field('name', $.identifier),
+      '>'
+    ),
+
+    jsx_self_closing_element: ($) => seq(
+      '<',
+      field('name', $.identifier),
+      repeat($.jsx_attribute),
+      '/>'
+    ),
+
+    jsx_attribute: ($) => seq(
+      $.identifier,
+      '=',
+      choice(
+        $.string_literal,
+        $.jsx_expression
+      )
+    ),
+
+    jsx_expression: ($) => seq(
+      '{',
+      $._expression,
+      '}'
+    ),
+
+    jsx_text: ($) => token(prec(-1, /[^<>{}\s][^<>{}]*/)),
 
     import_statement: ($) => choice(
       seq(

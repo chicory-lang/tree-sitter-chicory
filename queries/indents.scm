@@ -3,3 +3,4 @@
 (adt_type) @indent
 (match_expression) @indent
 (block_expression) @indent
+(jsx_element) @indent

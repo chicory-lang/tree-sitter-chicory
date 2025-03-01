@@ -10,7 +10,12 @@
         "chic"
       ],
       "injection-regex": "^chicory$",
-      "class-name": "TreeSitterChicory"
+      "class-name": "TreeSitterChicory",
+      "tree-sitter": {
+        "highlights": [
+          "queries/highlights.scm"
+        ]
+      }
     }
   ],
   "metadata": {

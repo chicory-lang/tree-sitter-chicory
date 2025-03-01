@@ -1,0 +1,159 @@
+===================
+Self-closing elements
+===================
+
+const element = <Div />
+
+---
+
+(source_file
+  (const_declaration
+    name: (identifier)
+    value: (jsx_element
+      (jsx_self_closing_element
+        name: (identifier)))))
+
+===================
+Elements with children
+===================
+
+const element = <Div>Hello world</Div>
+
+---
+
+(source_file
+  (const_declaration
+    name: (identifier)
+    value: (jsx_element
+      (jsx_opening_element
+        name: (identifier))
+      (jsx_text)
+      (jsx_closing_element
+        name: (identifier)))))
+
+===================
+Elements with attributes
+===================
+
+const element = <Div className="container" count={5} onClick={handleClick} />
+
+---
+
+(source_file
+  (const_declaration
+    name: (identifier)
+    value: (jsx_element
+      (jsx_self_closing_element
+        name: (identifier)
+        (jsx_attribute
+          (identifier)
+          (string_literal))
+        (jsx_attribute
+          (identifier)
+          (jsx_expression
+            (number)))
+        (jsx_attribute
+          (identifier)
+          (jsx_expression
+            (identifier)))))))
+
+===================
+Nested elements
+===================
+
+const element = <Div>
+  <Header>Title</Header>
+  <Content>Some text</Content>
+</Div>
+
+---
+
+(source_file
+  (const_declaration
+    name: (identifier)
+    value: (jsx_element
+      (jsx_opening_element
+        name: (identifier))
+      (jsx_element
+        (jsx_opening_element
+          name: (identifier))
+        (jsx_text)
+        (jsx_closing_element
+          name: (identifier)))
+      (jsx_element
+        (jsx_opening_element
+          name: (identifier))
+        (jsx_text)
+        (jsx_closing_element
+          name: (identifier)))
+      (jsx_closing_element
+        name: (identifier)))))
+
+===================
+Expression children
+===================
+
+const element = <Div>
+  {count}
+  <Button>{text}</Button>
+</Div>
+
+---
+
+(source_file
+  (const_declaration
+    name: (identifier)
+    value: (jsx_element
+      (jsx_opening_element
+        name: (identifier))
+      (jsx_expression
+        (identifier))
+      (jsx_element
+        (jsx_opening_element
+          name: (identifier))
+        (jsx_expression
+          (identifier))
+        (jsx_closing_element
+          name: (identifier)))
+      (jsx_closing_element
+        name: (identifier)))))
+
+===================
+JSX in match expressions
+===================
+
+const element = match (user) {
+  "world" => <Div>{"Hello WORLD!"}</Div>,
+  _ => <Div>{"Hello " + user}</Div>
+}
+
+---
+
+(source_file
+  (const_declaration
+    name: (identifier)
+    value: (match_expression
+      value: (identifier)
+      (match_arm
+        pattern: (match_pattern
+          (literal
+            (string_literal)))
+        body: (jsx_element
+          (jsx_opening_element
+            name: (identifier))
+          (jsx_expression
+            (string_literal))
+          (jsx_closing_element
+            name: (identifier))))
+      (match_arm
+        pattern: (match_pattern
+          (wildcard))
+        body: (jsx_element
+          (jsx_opening_element
+            name: (identifier))
+          (jsx_expression
+            (binary_expression
+              left: (string_literal)
+              right: (identifier)))
+          (jsx_closing_element
+            name: (identifier)))))))
