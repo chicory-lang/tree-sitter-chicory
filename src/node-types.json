@@ -1274,7 +1274,6 @@
   {
     "type": "source_file",
     "named": true,
-    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1452,8 +1451,7 @@
   },
   {
     "type": "comment",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "const",
@@ -1497,11 +1495,11 @@
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "string",
