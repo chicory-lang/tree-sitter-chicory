@@ -1,0 +1,151 @@
+===================
+Basic record literals
+===================
+
+const emptyRecord = {}
+const person = {name: "John", age: 30}
+const config = {enabled: true, count: 42, message: "Ready"}
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (record_expression))
+  (const_declaration
+    (identifier)
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (string_literal))
+      (record_field_expression
+        (identifier)
+        (number))))
+  (const_declaration
+    (identifier)
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (boolean))
+      (record_field_expression
+        (identifier)
+        (number))
+      (record_field_expression
+        (identifier)
+        (string_literal)))))
+
+===================
+Records with expressions
+===================
+
+const calculated = {sum: 1 + 2, greeting: "hello" + " world", product: 3 * 4}
+const nested = {outer: {inner: "value"}}
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (binary_expression
+          (number)
+          (number)))
+      (record_field_expression
+        (identifier)
+        (binary_expression
+          (string_literal)
+          (string_literal)))
+      (record_field_expression
+        (identifier)
+        (binary_expression
+          (number)
+          (number)))))
+  (const_declaration
+    (identifier)
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (record_expression
+          (record_field_expression
+            (identifier)
+            (string_literal)))))))
+
+===================
+Records with trailing commas
+===================
+
+const withTrailingComma = {
+  name: "Alice",
+  age: 25,
+  active: true,
+}
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (string_literal))
+      (record_field_expression
+        (identifier)
+        (number))
+      (record_field_expression
+        (identifier)
+        (boolean)))))
+
+===================
+Records with complex expressions
+===================
+
+const complex = {
+  handler: (x) => x * 2,
+  result: match (value) {
+    1 => "one",
+    _ => "other"
+  },
+  computed: {
+    let x = 10
+    x + 5
+  }
+}
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (function_expression
+          (parameter_list
+            (identifier))
+          (binary_expression
+            (identifier)
+            (number))))
+      (record_field_expression
+        (identifier)
+        (match_expression
+          (identifier)
+          (match_arm
+            (match_pattern
+              (number))
+            (string_literal))
+          (match_arm
+            (match_pattern
+              (wildcard))
+            (string_literal))))
+      (record_field_expression
+        (identifier)
+        (block_expression
+          (let_assignment
+            (identifier)
+            (number))
+          (binary_expression
+            (identifier)
+            (number)))))))

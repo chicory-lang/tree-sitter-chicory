@@ -11,10 +11,20 @@
 ; Types
 (primitive_type) @type
 (type_identifier) @type
+(tuple_type
+  "[" @punctuation.bracket
+  "]" @punctuation.bracket)
+(record_type
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
 
 ; Variables and Fields
 (record_field
   name: (identifier) @property)
+(record_field_expression
+  name: (identifier) @property)
+(record_field_expression
+  value: (identifier) @variable)
 (adt_field
   name: (identifier) @property)
 
@@ -26,8 +36,16 @@
 
 ; Literals
 (string_literal) @string
-[(literal) (number)] @constant.numeric
+(number) @constant.numeric
 ["true" "false"] @constant.builtin.boolean
+
+; Arrays and Records
+(array_expression
+  "[" @punctuation.bracket
+  "]" @punctuation.bracket)
+(record_expression
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
 
 ; Functions
 (function_expression) @function

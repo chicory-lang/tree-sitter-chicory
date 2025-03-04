@@ -20,6 +20,16 @@
   name: (identifier) @name
   value: (match_expression)) @item
 
+; Constants with Array Expressions
+(const_declaration
+  name: (identifier) @name
+  value: (array_expression)) @item
+
+; Constants with Record Expressions
+(const_declaration
+  name: (identifier) @name
+  value: (record_expression)) @item
+
 ; Other Constants
 (const_declaration
   name: (identifier) @name) @item
@@ -33,6 +43,16 @@
 (let_assignment
   name: (identifier) @name
   value: (match_expression)) @item
+
+; Let Assignments with Array Expressions
+(let_assignment
+  name: (identifier) @name
+  value: (array_expression)) @item
+
+; Let Assignments with Record Expressions
+(let_assignment
+  name: (identifier) @name
+  value: (record_expression)) @item
 
 ; Other Let Assignments
 (let_assignment

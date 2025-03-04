@@ -70,8 +70,11 @@ module.exports = grammar({
       choice(
         $.number,
         $.string_literal,
+        $.boolean,
         $.identifier,
         $.function_expression,
+        $.array_expression,
+        $.record_expression,
         seq('(', $._expression, ')')
       ),
 
@@ -169,14 +172,14 @@ module.exports = grammar({
       field('alternative', $._expression)
     ),
 
-    block_expression: ($) => seq(
+    block_expression: ($) => prec.right(1, seq(
       '{',
       optional(seq(
         repeat(seq($._statement, optional('\n'))),
         $._expression
       )),
       '}'
-    ),
+    )),
 
     match_expression: ($) => seq(
       'match',
@@ -200,27 +203,31 @@ module.exports = grammar({
 
     match_pattern: ($) => choice(
       $.wildcard,
-      $.literal,          // LiteralMatchPattern
-      $.identifier,       // BareAdtMatchPattern
-      seq(                // AdtWithParamMatchPattern
+      $.number,          // NumberLiteralMatchPattern
+      $.string_literal,  // StringLiteralMatchPattern
+      $.boolean,         // BooleanMatchPattern
+      $.identifier,      // BareAdtMatchPattern
+      seq(               // AdtWithParamMatchPattern
         $.identifier,
         '(',
         $.identifier,
         ')'
       ),
-      seq(                // AdtWithLiteralMatchPattern
+      seq(               // AdtWithLiteralMatchPattern
         $.identifier,
         '(',
-        $.literal,
+        choice(
+          $.number,
+          $.string_literal,
+          $.boolean
+        ),
         ')'
       )
     ),
 
     wildcard: ($) => '_',
 
-    literal: ($) => choice(
-      $.number,
-      $.string_literal,
+    boolean: ($) => choice(
       'true',
       'false'
     ),
@@ -259,6 +266,32 @@ module.exports = grammar({
       '{',
       commaSep1($.identifier),
       '}'
+    ),
+
+    array_expression: ($) => seq(
+      '[',
+      optional(seq(
+        $._expression,
+        repeat(seq(',', $._expression)),
+        optional(',')
+      )),
+      ']'
+    ),
+
+    record_expression: ($) => prec(2, seq(
+      '{',
+      optional(seq(
+        $.record_field_expression,
+        repeat(seq(',', $.record_field_expression)),
+        optional(',')
+      )),
+      '}'
+    )),
+
+    record_field_expression: ($) => seq(
+      field('name', $.identifier),
+      ':',
+      field('value', $._expression)
     ),
 
     jsx_element: ($) => choice(
@@ -310,42 +343,6 @@ module.exports = grammar({
     ),
 
     jsx_text: ($) => token(prec(-1, /[^<>{}\s][^<>{}]*/)),
-
-    import_statement: ($) => choice(
-      seq(
-        'import',
-        field('default', $.identifier),
-        'from',
-        field('source', $.string_literal)
-      ),
-      seq(
-        'import',
-        field('named', $.destructuring_import),
-        'from',
-        field('source', $.string_literal)
-      ),
-      seq(
-        'import',
-        field('default', $.identifier),
-        ',',
-        field('named', $.destructuring_import),
-        'from',
-        field('source', $.string_literal)
-      )
-    ),
-
-    destructuring_import: ($) => seq(
-      '{',
-      commaSep1($.identifier),
-      '}'
-    ),
-
-    export_statement: ($) => seq(
-      'export',
-      '{',
-      commaSep1($.identifier),
-      '}'
-    ),
   },
 });
 
@@ -353,6 +350,3 @@ function commaSep1(rule) {
   return seq(rule, repeat(seq(",", rule)));
 }
 
-function sep1(separator, rule) {
-  return seq(rule, repeat(seq(separator, rule)));
-}

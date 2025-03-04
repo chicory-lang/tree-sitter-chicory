@@ -94,21 +94,19 @@ let result = match (value) {
       (identifier)
       (match_arm
         (match_pattern
-          (literal))
+          (boolean))
         (string_literal))
       (match_arm
         (match_pattern
-          (literal))
+          (boolean))
         (string_literal))
       (match_arm
         (match_pattern
-          (literal
-            (string_literal)))
+          (string_literal))
         (string_literal))
       (match_arm
         (match_pattern
-          (literal
-            (number)))
+          (number))
         (string_literal))
       (match_arm
         (match_pattern
@@ -136,19 +134,17 @@ let result = match (opt) {
       (match_arm
         (match_pattern
           (identifier)
-          (literal
-            (number)))
+          (number)  )
         (string_literal))
       (match_arm
         (match_pattern
           (identifier)
-          (literal
-            (string_literal)))
+          (string_literal))
         (string_literal))
       (match_arm
         (match_pattern
           (identifier)
-          (literal))
+          (boolean))
         (string_literal))
       (match_arm
         (match_pattern
@@ -278,8 +274,7 @@ let result = match (value) {
       (match_arm
         (match_pattern
           (identifier)
-          (literal
-            (number)))
+          (number))
         (string_literal))
       (match_arm
         (match_pattern
@@ -294,12 +289,11 @@ let result = match (value) {
         (string_literal))
       (match_arm
         (match_pattern
-          (literal))
+          (boolean))
         (string_literal))
       (match_arm
         (match_pattern
-          (literal
-            (string_literal)))
+          (string_literal))
         (string_literal))
       (match_arm
         (match_pattern

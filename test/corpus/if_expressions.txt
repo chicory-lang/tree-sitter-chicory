@@ -11,13 +11,13 @@ let y = if (false) "yes" else "no"
   (let_assignment
     (identifier)
     (if_expression
-      (identifier)
+      (boolean)
       (number)
       (number)))
   (let_assignment
     (identifier)
     (if_expression
-      (identifier)
+      (boolean)
       (string_literal)
       (string_literal))))
 

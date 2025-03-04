@@ -136,8 +136,7 @@ const element = match (user) {
       value: (identifier)
       (match_arm
         pattern: (match_pattern
-          (literal
-            (string_literal)))
+          (string_literal))
         body: (jsx_element
           (jsx_opening_element
             name: (identifier))

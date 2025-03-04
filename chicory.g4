@@ -31,6 +31,7 @@ adtType: NL* '|'? adtOption (NL* '|' adtOption )* NL*;
 
 adtOption
     : IDENTIFIER '(' NL* '{' NL* adtTypeAnnotation (',' NL* adtTypeAnnotation) ','? NL* '}' NL* ')'
+    | IDENTIFIER '(' IDENTIFIER ')'
     | IDENTIFIER '(' primitiveType ')'
     | IDENTIFIER
     ;
@@ -70,6 +71,8 @@ primaryExpr
     | jsxExpr           #JsxExpression
     | matchExpr         #MatchExpression
     | blockExpr         #BlockExpression
+    | recordExpr        #RecordExpression
+    | arrayLikeExpr     #ArrayLikeExpression
     | IDENTIFIER        #IdentifierExpression
     | literal           #LiteralExpression
     ;
@@ -116,7 +119,17 @@ matchPattern
     ;
 
 blockExpr
-    : '{' NL* (stmt NL*)* expr NL* '}'
+    : '{' NL* (stmt NL+)* expr NL* '}'
+    ;
+
+recordExpr
+    : '{' NL* (recordKvExpr (',' NL* recordKvExpr)*)? ','? NL* '}'
+    ;
+
+recordKvExpr: IDENTIFIER ':' expr;
+
+arrayLikeExpr
+    : '[' NL* (expr NL* (',' NL* expr)*)? NL* ','? NL* ']'
     ;
 
 assignKwd
@@ -186,7 +199,7 @@ STRING: '"' (~["\n])* '"';
 NUMBER: [0-9]+ ('.' [0-9]+)?;
 
 NL: '\n';
-WS: [ \r\n\t]+ -> channel(HIDDEN);
+WS: [ \r\t]+ -> channel(HIDDEN);
 
 COMMENT: '//' ~[\n]* -> channel(HIDDEN);
 MULTILINE_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);

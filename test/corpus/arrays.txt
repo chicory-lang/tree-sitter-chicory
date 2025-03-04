@@ -1,0 +1,124 @@
+===================
+Basic array literals
+===================
+
+const emptyArray = []
+const numbers = [1, 2, 3]
+const mixed = ["hello", 42, true]
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (array_expression))
+  (const_declaration
+    (identifier)
+    (array_expression
+      (number)
+      (number)
+      (number)))
+  (const_declaration
+    (identifier)
+    (array_expression
+      (string_literal)
+      (number)
+      (boolean))))
+
+===================
+Arrays with expressions
+===================
+
+const calculated = [1 + 2, "hello" + " world", 3 * 4]
+const nested = [[1, 2], [3, 4]]
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (array_expression
+      (binary_expression
+        (number)
+        (number))
+      (binary_expression
+        (string_literal)
+        (string_literal))
+      (binary_expression
+        (number)
+        (number))))
+  (const_declaration
+    (identifier)
+    (array_expression
+      (array_expression
+        (number)
+        (number))
+      (array_expression
+        (number)
+        (number)))))
+
+===================
+Arrays with trailing commas
+===================
+
+const withTrailingComma = [
+  1,
+  2,
+  3,
+]
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (array_expression
+      (number)
+      (number)
+      (number))))
+
+===================
+Arrays with complex expressions
+===================
+
+const complex = [
+  (x) => x * 2,
+  match (value) {
+    1 => "one",
+    _ => "other"
+  },
+  {
+    let x = 10
+    x + 5
+  }
+]
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (array_expression
+      (function_expression
+        (parameter_list
+          (identifier))
+        (binary_expression
+          (identifier)
+          (number)))
+      (match_expression
+        (identifier)
+        (match_arm
+          (match_pattern
+            (number))
+          (string_literal))
+        (match_arm
+          (match_pattern
+            (wildcard))
+          (string_literal)))
+      (block_expression
+        (let_assignment
+          (identifier)
+          (number))
+        (binary_expression
+          (identifier)
+          (number))))))
