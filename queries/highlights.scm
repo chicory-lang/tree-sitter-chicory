@@ -53,6 +53,11 @@
   (identifier) @variable.parameter)
 (call_expression
   function: (identifier) @function)
+(call_expression
+  function: (member_expression) @function)
+(member_expression
+  object: (identifier) @variable
+  property: (identifier) @property)
 
 ; JSX - More specific patterns first
 [

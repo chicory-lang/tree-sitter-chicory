@@ -16,7 +16,8 @@ module.exports = grammar({
         $.let_assignment,
         $.type_definition,
         $.import_statement,
-        $.export_statement
+        $.export_statement,
+        $._expression  // Add expressions as valid statements
       ),
 
     let_assignment: ($) =>
@@ -60,6 +61,7 @@ module.exports = grammar({
       $._primary_expression,
       $.binary_expression,
       $.call_expression,
+      $.member_expression,  // Add member expression as a valid expression
       $.block_expression,
       $.if_expression,
       $.match_expression,
@@ -174,10 +176,7 @@ module.exports = grammar({
 
     block_expression: ($) => prec.right(1, seq(
       '{',
-      optional(seq(
-        repeat(seq($._statement, optional('\n'))),
-        $._expression
-      )),
+      optional(repeat(seq($._statement, optional('\n')))),  // Allow blocks with just statements
       '}'
     )),
 
@@ -343,10 +342,15 @@ module.exports = grammar({
     ),
 
     jsx_text: ($) => token(prec(-1, /[^<>{}\s][^<>{}]*/)),
+
+    member_expression: ($) => prec.left(3, seq(
+      field('object', $._expression),
+      '.',
+      field('property', $.identifier)
+    )),
   },
 });
 
 function commaSep1(rule) {
   return seq(rule, repeat(seq(",", rule)));
 }
-

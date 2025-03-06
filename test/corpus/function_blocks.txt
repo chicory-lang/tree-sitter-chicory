@@ -1,0 +1,132 @@
+===================
+Function blocks with variable declarations
+===================
+
+let a = () => {
+    const b = 123
+}
+
+console.log(b)
+
+---
+
+(source_file
+  (let_assignment
+    name: (identifier)
+    value: (function_expression
+      (block_expression
+        (const_declaration
+          name: (identifier)
+          value: (number)))))
+  (call_expression
+    function: (member_expression
+      object: (identifier)
+      property: (identifier))
+    (identifier)))
+
+===================
+Nested function blocks
+===================
+
+let outer = () => {
+    const x = 10
+    let inner = () => {
+        const y = 20
+        x + y
+    }
+    inner()
+}
+
+---
+
+(source_file
+  (let_assignment
+    name: (identifier)
+    value: (function_expression
+      (block_expression
+        (const_declaration
+          name: (identifier)
+          value: (number))
+        (let_assignment
+          name: (identifier)
+          value: (function_expression
+            (block_expression
+              (const_declaration
+                name: (identifier)
+                value: (number))
+              (binary_expression
+                left: (identifier)
+                right: (identifier)))))
+        (call_expression
+          function: (identifier))))))
+
+===================
+Function blocks with member expressions
+===================
+
+let logger = () => {
+    const prefix = "LOG: "
+    console.log(prefix + "Hello")
+}
+
+---
+
+(source_file
+  (let_assignment
+    name: (identifier)
+    value: (function_expression
+      (block_expression
+        (const_declaration
+          name: (identifier)
+          value: (string_literal))
+        (call_expression
+          function: (member_expression
+            object: (identifier)
+            property: (identifier))
+          (binary_expression
+            left: (identifier)
+            right: (string_literal)))))))
+
+===================
+Function blocks with return statements
+===================
+
+let calculate = (a, b) => {
+    const sum = a + b
+    const product = a * b
+    
+    if (sum > 10) {
+        sum
+    } else {
+        product
+    }
+}
+
+---
+
+(source_file
+  (let_assignment
+    name: (identifier)
+    value: (function_expression
+      (parameter_list
+        (identifier)
+        (identifier))
+      (block_expression
+        (const_declaration
+          name: (identifier)
+          value: (binary_expression
+            left: (identifier)
+            right: (identifier)))
+        (const_declaration
+          name: (identifier)
+          value: (binary_expression
+            left: (identifier)
+            right: (identifier)))
+        (if_expression
+          condition: (binary_expression
+            left: (identifier)
+            right: (number))
+          consequence: (block_expression
+            (identifier))
+          alternative: (block_expression
+            (identifier)))))))

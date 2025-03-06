@@ -91,8 +91,15 @@ This section tracks the implementation of major language features from the ANTLR
 - Literals (number, string, boolean)
 - Identifiers
 - Parenthesized expressions
+- JSX expressions
+  - Self-closing elements (e.g., `<Div />`)
+  - Elements with children (e.g., `<Div>Hello world</Div>`)
+  - Elements with attributes (e.g., `<Div className="container" count={5} />`)
+  - Nested elements
+  - Expression children (e.g., `<Div>{count}</Div>`)
 
 #### Statements
+
 - Let assignments (e.g., `let x = 42`)
 - Const declarations (e.g., `const PI = 3.14`)
 - Assignment statements
@@ -100,9 +107,6 @@ This section tracks the implementation of major language features from the ANTLR
 - Export statements
 
 #### Other Features
+
 - Comments (single-line and multi-line)
-
-### To Be Implemented
-
-- JSX expressions
 
