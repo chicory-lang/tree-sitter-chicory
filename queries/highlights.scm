@@ -7,10 +7,17 @@
 "import" @keyword.control.import
 "export" @keyword.control.import
 "from" @keyword.control.import
+"bind" @keyword.control.import
+"as" @keyword.control.import
 
 ; Types
 (primitive_type) @type
 (type_identifier) @type
+(function_type
+  "(" @punctuation.bracket
+  ")" @punctuation.bracket
+  "=>" @punctuation)
+(parameter_list_type) @type
 (tuple_type
   "[" @punctuation.bracket
   "]" @punctuation.bracket)
@@ -90,6 +97,14 @@
 (match_pattern 
   . (identifier) @type  ; AdtWithParamMatchPattern
   (identifier) @variable.parameter)  ; Parameter
+
+; Imports
+(binding_identifier
+  name: (identifier) @variable
+  type: (_) @type)
+(binding_import
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
 
 ; Punctuation
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket

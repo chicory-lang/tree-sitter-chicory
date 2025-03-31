@@ -50,12 +50,23 @@ module.exports = grammar({
         $.record_type,
         $.tuple_type,
         $.primitive_type,
+        $.function_type,
         $.type_identifier
       ),
 
     primitive_type: ($) => choice("number", "string", "boolean"),
 
     type_identifier: ($) => $._upper_identifier,
+
+    function_type: ($) => seq(
+      '(',
+      field('params', optional($.parameter_list_type)),
+      ')',
+      '=>',
+      field('return_type', $._type_expression)
+    ),
+
+    parameter_list_type: ($) => commaSep1($._type_expression),
 
     _expression: ($) => choice(
       $._primary_expression,
@@ -251,6 +262,30 @@ module.exports = grammar({
         field('named', $.destructuring_import),
         'from',
         field('source', $.string_literal)
+      ),
+      seq(
+        'bind',
+        field('name', $.identifier),
+        'as',
+        field('type', $._type_expression),
+        'from',
+        field('source', $.string_literal)
+      ),
+      seq(
+        'bind',
+        field('named', $.binding_import),
+        'from',
+        field('source', $.string_literal)
+      ),
+      seq(
+        'bind',
+        field('name', $.identifier),
+        'as',
+        field('type', $._type_expression),
+        ',',
+        field('named', $.binding_import),
+        'from',
+        field('source', $.string_literal)
       )
     ),
 
@@ -258,6 +293,18 @@ module.exports = grammar({
       '{',
       commaSep1($.identifier),
       '}'
+    ),
+
+    binding_import: ($) => seq(
+      '{',
+      commaSep1($.binding_identifier),
+      '}'
+    ),
+
+    binding_identifier: ($) => seq(
+      field('name', $.identifier),
+      'as',
+      field('type', $._type_expression)
     ),
 
     export_statement: ($) => seq(

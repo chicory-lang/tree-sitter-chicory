@@ -17,7 +17,11 @@ assignStmt
 
 // TODO: Force type identifier to begin with uppercase letter
 typeDefinition
-    : 'type' IDENTIFIER '=' typeExpr
+    : 'type' IDENTIFIER typeParams? '=' typeExpr
+    ;
+
+typeParams
+    : '<' NL* IDENTIFIER (',' NL* IDENTIFIER)* NL* '>'
     ;
 
 typeExpr
@@ -25,15 +29,17 @@ typeExpr
     | recordType
     | tupleType
     | primitiveType
+    | functionType
+    | genericTypeExpr
     ;
 
 adtType: NL* '|'? adtOption (NL* '|' adtOption )* NL*;
 
 adtOption
-    : IDENTIFIER '(' NL* '{' NL* adtTypeAnnotation (',' NL* adtTypeAnnotation) ','? NL* '}' NL* ')'
-    | IDENTIFIER '(' IDENTIFIER ')'
-    | IDENTIFIER '(' primitiveType ')'
-    | IDENTIFIER
+    : IDENTIFIER '(' NL* '{' NL* adtTypeAnnotation (',' NL* adtTypeAnnotation) ','? NL* '}' NL* ')' #AdtOptionAnonymousRecord
+    | IDENTIFIER '(' IDENTIFIER ')'                                                                 #AdtOptionNamedType
+    | IDENTIFIER '(' primitiveType ')'                                                              #AdtOptionPrimitiveType
+    | IDENTIFIER                                                                                    #AdtOptionNoArg
     ;
 
 adtTypeAnnotation: IDENTIFIER ':' (primitiveType | IDENTIFIER);
@@ -42,20 +48,40 @@ recordType: '{' NL* recordTypeAnontation (',' NL* recordTypeAnontation)* ','? NL
 
 recordTypeAnontation: IDENTIFIER ':' (primitiveType | recordType | IDENTIFIER);
 
-tupleType: '[' NL* tupleField (',' NL* tupleField)* ','? NL* ']';
+tupleType: '[' NL* typeExpr (',' NL* typeExpr)* ','? NL* ']';
 
-tupleField: primitiveType | IDENTIFIER;
+primitiveType: 'number' | 'string' | 'boolean' | 'unit';
 
-primitiveType: 'number' | 'string' | 'boolean';
+functionType: '(' NL* (typeParam (',' NL* typeParam)*)? NL* ')' '=>' NL* typeExpr;
+
+typeParam
+    : IDENTIFIER ':' typeExpr  #NamedTypeParam
+    | typeExpr                 #UnnamedTypeParam
+    ;
+
+genericTypeExpr
+    : IDENTIFIER '<' NL* typeExpr (',' NL* typeExpr)* NL* '>'
+    ;
 
 importStmt
     : 'import' IDENTIFIER 'from' STRING
     | 'import' IDENTIFIER ',' destructuringImportIdentifier 'from' STRING
     | 'import' destructuringImportIdentifier 'from' STRING
+    | 'bind' IDENTIFIER 'as' typeExpr 'from' STRING
+    | 'bind' bindingImportIdentifier 'from' STRING
+    | 'bind' IDENTIFIER 'as' typeExpr ',' bindingImportIdentifier 'from' STRING
     ;
 
 destructuringImportIdentifier:
     | '{' NL* IDENTIFIER (',' NL* IDENTIFIER)* NL* '}'
+    ;
+
+bindingImportIdentifier:
+    '{' NL* bindingIdentifier (',' NL* bindingIdentifier)* NL* '}'
+    ;
+
+bindingIdentifier:
+    IDENTIFIER 'as' typeExpr
     ;
 
 exportStmt
@@ -65,8 +91,7 @@ exportStmt
 expr: primaryExpr tailExpr*; 
 
 primaryExpr
-    : '(' expr ')'      #ParenExpression
-    | ifExpr            #IfExpression
+    : ifExpr            #IfExpression
     | funcExpr          #FunctionExpression
     | jsxExpr           #JsxExpression
     | matchExpr         #MatchExpression
@@ -75,6 +100,7 @@ primaryExpr
     | arrayLikeExpr     #ArrayLikeExpression
     | IDENTIFIER        #IdentifierExpression
     | literal           #LiteralExpression
+    | '(' expr ')'      #ParenExpression
     ;
 
 tailExpr
@@ -138,9 +164,10 @@ assignKwd
     ;
 
 literal
-    : STRING
-    | NUMBER
-    | TRUE_KWD | FALSE_KWD
+    : STRING    #StringLiteral
+    | NUMBER    #NumberLiteral
+    | TRUE_KWD  #BooleanLiteral
+    | FALSE_KWD #BooleanLiteral
     ;
 
 // TODO: Very simplistic handling of jsx...

@@ -319,6 +319,67 @@
     }
   },
   {
+    "type": "binding_identifier",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "adt_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "record_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "binding_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binding_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block_expression",
     "named": true,
     "fields": {},
@@ -736,6 +797,52 @@
     }
   },
   {
+    "type": "function_type",
+    "named": true,
+    "fields": {
+      "params": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "parameter_list_type",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "adt_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "record_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "identifier",
     "named": true,
     "fields": {}
@@ -970,10 +1077,24 @@
           }
         ]
       },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "named": {
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "binding_import",
+            "named": true
+          },
           {
             "type": "destructuring_import",
             "named": true
@@ -986,6 +1107,36 @@
         "types": [
           {
             "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "adt_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "record_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
             "named": true
           }
         ]
@@ -1576,6 +1727,41 @@
     }
   },
   {
+    "type": "parameter_list_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "adt_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "primitive_type",
     "named": true,
     "fields": {}
@@ -1615,6 +1801,10 @@
         "types": [
           {
             "type": "adt_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
             "named": true
           },
           {
@@ -1847,6 +2037,10 @@
             "named": true
           },
           {
+            "type": "function_type",
+            "named": true
+          },
+          {
             "type": "primitive_type",
             "named": true
           },
@@ -1886,6 +2080,10 @@
         "types": [
           {
             "type": "adt_type",
+            "named": true
+          },
+          {
+            "type": "function_type",
             "named": true
           },
           {
@@ -1978,6 +2176,14 @@
     "named": false
   },
   {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "bind",
+    "named": false
+  },
+  {
     "type": "boolean",
     "named": false
   },
@@ -2027,11 +2233,11 @@
   },
   {
     "type": "number",
-    "named": true
+    "named": false
   },
   {
     "type": "number",
-    "named": false
+    "named": true
   },
   {
     "type": "string",

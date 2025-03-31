@@ -86,3 +86,87 @@ export { distance }
             (identifier))))))
   (export_statement
     (identifier)))
+
+===================
+Bind imports - single binding
+===================
+
+bind add as (number, number) => number from "math"
+
+---
+
+(source_file
+  (import_statement
+    (identifier)
+    (function_type
+      (parameter_list_type
+        (primitive_type)
+        (primitive_type))
+      (primitive_type))
+    (string_literal)))
+
+===================
+Bind imports - destructuring binding
+===================
+
+bind { 
+  max as (number, number) => number,
+  min as (number, number) => number
+} from "math"
+
+---
+
+(source_file
+  (import_statement
+    (binding_import
+      (binding_identifier
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type)
+            (primitive_type))
+          (primitive_type)))
+      (binding_identifier
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type)
+            (primitive_type))
+          (primitive_type))))
+    (string_literal)))
+
+===================
+Bind imports - mixed bindings
+===================
+
+bind defaultFn as (string) => string, {
+  helper1 as (number) => number,
+  helper2 as { x: number, y: number }
+} from "utils"
+
+---
+
+(source_file
+  (import_statement
+    (identifier)
+    (function_type
+      (parameter_list_type
+        (primitive_type))
+      (primitive_type))
+    (binding_import
+      (binding_identifier
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type))
+          (primitive_type)))
+      (binding_identifier
+        (identifier)
+        (record_type
+          (record_field
+            (identifier)
+            (primitive_type))
+          (record_field
+            (identifier)
+            (primitive_type)))))
+    (string_literal)))
