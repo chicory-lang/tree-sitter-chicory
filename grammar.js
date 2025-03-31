@@ -111,7 +111,7 @@ module.exports = grammar({
     ),
 
     binary_expression: ($) => {
-      const operators = ['>', '<', '+', '*']
+      const operators = ['>', '<', '+', '*', '>=', '<=', '==', '!=']
       const table = operators.map(operator => prec.left(1,  // Lower precedence than call_expression
         seq(
           field('left', choice($._expression, $.string_literal)),
@@ -175,15 +175,28 @@ module.exports = grammar({
         field("type", choice($.primitive_type, $.type_identifier)),
       ),
 
-    if_expression: ($) => seq(
-      'if',
-      '(',
-      field('condition', $._expression),
-      ')',
-      field('consequence', $._expression),
-      'else',
-      field('alternative', $._expression)
-    ),
+    if_expression: ($) => prec.right(1, choice(
+      // Simple if-else
+      seq(
+        'if',
+        '(',
+        field('condition', $._expression),
+        ')',
+        field('consequence', $._expression),
+        'else',
+        field('alternative', $._expression)
+      ),
+      // if-else-if chain (recursive pattern)
+      seq(
+        'if',
+        '(',
+        field('condition', $._expression),
+        ')',
+        field('consequence', $._expression),
+        'else',
+        field('alternative', $.if_expression)
+      )
+    )),
 
     block_expression: ($) => prec.right(1, seq(
       '{',

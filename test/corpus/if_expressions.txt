@@ -108,3 +108,140 @@ let x = if (a > 0) {
           (string_literal))
         (block_expression
           (string_literal))))))
+
+===================
+Multiple else-if chains
+===================
+
+let grade = if (score >= 90) {
+  "A"
+} else if (score >= 80) {
+  "B"
+} else if (score >= 70) {
+  "C"
+} else if (score >= 60) {
+  "D"
+} else {
+  "F"
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (if_expression
+      (binary_expression
+        (identifier)
+        (number))
+      (block_expression
+        (string_literal))
+      (if_expression
+        (binary_expression
+          (identifier)
+          (number))
+        (block_expression
+          (string_literal))
+        (if_expression
+          (binary_expression
+            (identifier)
+            (number))
+          (block_expression
+            (string_literal))
+          (if_expression
+            (binary_expression
+              (identifier)
+              (number))
+            (block_expression
+              (string_literal))
+            (block_expression
+              (string_literal))))))))
+
+===================
+Nested if-else if chains
+===================
+
+let result = if (x > 0) {
+  if (y > 0) {
+    "first quadrant"
+  } else if (y < 0) {
+    "fourth quadrant"
+  } else {
+    "positive x-axis"
+  }
+} else if (x < 0) {
+  if (y > 0) {
+    "second quadrant"
+  } else if (y < 0) {
+    "third quadrant"
+  } else {
+    "negative x-axis"
+  }
+} else {
+  if (y > 0) {
+    "positive y-axis"
+  } else if (y < 0) {
+    "negative y-axis"
+  } else {
+    "origin"
+  }
+}
+
+---
+
+(source_file
+  (let_assignment
+    (identifier)
+    (if_expression
+      (binary_expression
+        (identifier)
+        (number))
+      (block_expression
+        (if_expression
+          (binary_expression
+            (identifier)
+            (number))
+          (block_expression
+            (string_literal))
+          (if_expression
+            (binary_expression
+              (identifier)
+              (number))
+            (block_expression
+              (string_literal))
+            (block_expression
+              (string_literal)))))
+      (if_expression
+        (binary_expression
+          (identifier)
+          (number))
+        (block_expression
+          (if_expression
+            (binary_expression
+              (identifier)
+              (number))
+            (block_expression
+              (string_literal))
+            (if_expression
+              (binary_expression
+                (identifier)
+                (number))
+              (block_expression
+                (string_literal))
+              (block_expression
+                (string_literal)))))
+        (block_expression
+          (if_expression
+            (binary_expression
+              (identifier)
+              (number))
+            (block_expression
+              (string_literal))
+            (if_expression
+              (binary_expression
+                (identifier)
+                (number))
+              (block_expression
+                (string_literal))
+              (block_expression
+                (string_literal)))))))))
