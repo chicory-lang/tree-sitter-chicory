@@ -24,6 +24,12 @@
 (record_type
   "{" @punctuation.bracket
   "}" @punctuation.bracket)
+(generic_type
+  "<" @punctuation.bracket
+  ">" @punctuation.bracket)
+(type_parameters
+  "<" @punctuation.bracket
+  ">" @punctuation.bracket)
 
 ; Variables and Fields
 (record_field

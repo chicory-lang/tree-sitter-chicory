@@ -322,3 +322,129 @@ type MultiField =
           (adt_field
             (identifier)
             (type_identifier)))))))
+
+===================
+Unit type
+===================
+
+type Empty = unit
+type MaybeValue = | Some(number) | None(unit)
+type Procedure = () => unit
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (primitive_type))
+  (type_definition
+    (type_identifier)
+    (adt_type
+      (adt_option
+        (type_identifier)
+        (primitive_type))
+      (adt_option
+        (type_identifier)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (function_type
+      (primitive_type))))
+
+===================
+Generic types
+===================
+
+type List = Array<number>
+type Dictionary = Map<string, number>
+type Nested = Container<List<number>>
+type Complex = Pair<{name: string, age: number}, Array<boolean>>
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (primitive_type)
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (generic_type
+        (type_identifier)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (generic_type
+      (type_identifier)
+      (record_type
+        (record_field
+          (identifier)
+          (primitive_type))
+        (record_field
+          (identifier)
+          (primitive_type)))
+      (generic_type
+        (type_identifier)
+        (primitive_type)))))
+
+===================
+Generic type definitions
+===================
+
+type List<T> = Array<T>
+type Pair<A, B> = { first: A, second: B }
+type Result<T, E> = | Ok(T) | Error(E)
+type Mapper<A, B> = (A) => B
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (type_identifier))
+    (generic_type
+      (type_identifier)
+      (type_identifier)))
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (type_identifier)
+      (type_identifier))
+    (record_type
+      (record_field
+        (identifier)
+        (type_identifier))
+      (record_field
+        (identifier)
+        (type_identifier))))
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (type_identifier)
+      (type_identifier))
+    (adt_type
+      (adt_option
+        (type_identifier)
+        (type_identifier))
+      (adt_option
+        (type_identifier)
+        (type_identifier))))
+  (type_definition
+    (type_identifier)
+    (type_parameters
+      (type_identifier)
+      (type_identifier))
+    (function_type
+      (parameter_list_type
+        (type_identifier))
+      (type_identifier))))

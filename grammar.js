@@ -5,6 +5,7 @@ module.exports = grammar({
   conflicts: ($) => [
     [$._type_expression, $.adt_option],
     [$.adt_option],  // Allow ambiguity in ADT option parsing
+    [$._type_expression, $.generic_type, $.adt_option],  // Add conflict for generic type parsing
   ],
 
   rules: {
@@ -40,6 +41,7 @@ module.exports = grammar({
       seq(
         "type",
         field("name", $.type_identifier),
+        optional(field("type_params", $.type_parameters)),
         "=",
         field("value", $._type_expression),
       ),
@@ -51,22 +53,30 @@ module.exports = grammar({
         $.tuple_type,
         $.primitive_type,
         $.function_type,
+        $.generic_type,
         $.type_identifier
       ),
 
-    primitive_type: ($) => choice("number", "string", "boolean"),
+    primitive_type: ($) => choice("number", "string", "boolean", "unit"),
 
     type_identifier: ($) => $._upper_identifier,
 
     function_type: ($) => seq(
       '(',
-      field('params', optional($.parameter_list_type)),
+      optional(field('params', $.parameter_list_type)),
       ')',
       '=>',
       field('return_type', $._type_expression)
     ),
 
-    parameter_list_type: ($) => commaSep1($._type_expression),
+    parameter_list_type: ($) => prec.dynamic(1, commaSep1($._type_expression)),
+
+    generic_type: ($) => prec(2, seq(
+      field('base_type', $.type_identifier),
+      '<',
+      field('type_arguments', commaSep1($._type_expression)),
+      '>'
+    )),
 
     _expression: ($) => choice(
       $._primary_expression,
@@ -161,7 +171,7 @@ module.exports = grammar({
     adt_option: ($) =>
       choice(
         $.type_identifier,
-        seq($.type_identifier, "(", field("type", $.primitive_type), ")"),
+        seq($.type_identifier, "(", field("type", choice($.primitive_type, $.type_identifier)), ")"),
         seq($.type_identifier, "(", field("fields", $.adt_fields), ")"),
       ),
 
@@ -407,6 +417,12 @@ module.exports = grammar({
       field('object', $._expression),
       '.',
       field('property', $.identifier)
+    )),
+
+    type_parameters: ($) => prec(2, seq(
+      '<',
+      commaSep1($.type_identifier),
+      '>'
     )),
   },
 });

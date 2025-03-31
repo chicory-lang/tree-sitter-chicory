@@ -6,3 +6,6 @@
 (jsx_element) @indent
 (array_expression) @indent
 (record_expression) @indent
+(generic_type) @indent
+(type_parameters) @indent
+(if_expression) @indent
