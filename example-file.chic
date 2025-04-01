@@ -1,9 +1,18 @@
-import { useState } from "preact/hooks"
+import { useState, useEffect } from "preact/hooks"
+import defaultExport from "some-module"
+import defaultExport, { namedExport } from "another-module"
+bind { TypeA as string, TypeB as number } from "types-module"
+bind SingleType as boolean from "boolean-module"
+
+// Single-line comment
+/* Multi-line
+   comment */
 
 // Primitive Types
 type Age = number
 type Name = string
 type Active = boolean
+type Nothing = void
 
 // Tuple Types
 type Point2D = [number, number]
@@ -55,8 +64,59 @@ type UserProfile = {
 // ADT Types
 type Option = None | Some(number)
 type Result = Ok(string) | Err({ message: string })
+type Shape = Circle | Square | Rectangle(number) | Triangle({ base: number, height: number })
 
-const user = "world"
+// Generic Types
+type Container<T> = { value: T }
+type Pair<A, B> = [A, B]
+
+// Function Types
+type Callback = (number) => void
+type Transformer = (string, number) => string
+type Complex = (a: number, b: string) => [number, string]
+
+// Variables and Constants
+let x = 42
+let negative = -42
+let decimal = 3.14
+let negativeDecimal = -3.14
+const PI = 3.14
+const message = "Hello"
+const flag = true
+
+// Destructuring Assignments
+let { a, b, c } = { a: 1, b: 2, c: 3 }
+const [first, second] = [123, 456]
+
+// Arrays
+const emptyArray = []
+const numbers = [1, 2, 3]
+const mixed = ["hello", 42, true]
+const nested = [[1, 2], [3, 4]]
+
+// Records
+const person = {
+  name: "Alice",
+  age: 30,
+  active: true
+}
+
+const complex = {
+  handler: (x) => x * 2,
+  result: match (value) {
+    1 => "one"
+    _ => "other"
+  },
+  computed: {
+    let x = 10
+    x + 5
+  }
+}
+
+// Function Expressions
+const square = (x) => x * x
+const add = a => a + a  // Parenless function
+const multiply = (a, b) => a * b
 
 // Function with block body and pattern matching
 const greet = (name, style) => {
@@ -84,11 +144,36 @@ const describe = (value) =>
     _ => "Something else"
   }
 
+// JSX Expressions
 const App = () =>
-    match (user) {
-      "world" => <h1>{"Hello WORLD!"}</h1>
-      _ => <h1>{"Hello " + user}</h1>
-    }
+  match (user) {
+    "world" => <h1>{"Hello WORLD!"}</h1>
+    _ => <h1>{"Hello " + user}</h1>
+  }
+
+const Component = () => <div className="container" count={5}>
+  <h1>Title</h1>
+  <p>Content</p>
+  {dynamic}
+  <Button onClick={handler} />
+</div>
+
+// Binary Operations
+const sum = a + b
+const product = a * b
+const comparison = a == b
+const greaterThan = a > b
+
+// Call Expressions
+const result = calculate(1, 2)
+const chainedResult = obj.method(arg1).property
+
+// Index Expressions
+const item = array[0]
+const nestedItem = matrix[1][2]
+
+const user = "world"
+
 const rand = <table>{"boxlike"}</table> 
 
-export { App, greet, describe }
+export { App, greet, describe, square, add }
