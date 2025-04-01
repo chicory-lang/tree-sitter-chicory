@@ -123,7 +123,7 @@ JSX in match expressions
 ===================
 
 const element = match (user) {
-  "world" => <Div>{"Hello WORLD!"}</Div>,
+  "world" => <Div>{"Hello WORLD!"}</Div>
   _ => <Div>{"Hello " + user}</Div>
 }
 

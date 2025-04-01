@@ -84,7 +84,7 @@ Arrays with complex expressions
 const complex = [
   (x) => x * 2,
   match (value) {
-    1 => "one",
+    1 => "one"
     _ => "other"
   },
   {

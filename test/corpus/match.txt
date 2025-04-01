@@ -3,7 +3,7 @@ Simple match expressions
 ===================
 
 let result = match (value) {
-  Some(x) => x + 1,
+  Some(x) => x + 1
   None => 0
 }
 
@@ -34,7 +34,7 @@ let result = match (shape) {
   Circle(r) => {
     let area = r * r * 3
     area
-  },
+  }
   Rectangle(width) => {
     let area = width * 10
     area
@@ -78,10 +78,10 @@ Match with literals and wildcards
 ===================
 
 let result = match (value) {
-  true => "yes",
-  false => "no",
-  "hello" => "greeting",
-  42 => "answer",
+  true => "yes"
+  false => "no"
+  "hello" => "greeting"
+  42 => "answer"
   _ => "anything else"
 }
 
@@ -118,9 +118,9 @@ Match with literal in constructor
 ===================
 
 let result = match (opt) {
-  Some(42) => "found answer",
-  Some("hello") => "found greeting",
-  Some(true) => "found truth",
+  Some(42) => "found answer"
+  Some("hello") => "found greeting"
+  Some(true) => "found truth"
   None => "found nothing"
 }
 
@@ -160,7 +160,7 @@ let handler = (result) =>
     Ok(value) => {
       let msg = "Success: " + value
       msg
-    },
+    }
     Err(msg) => {
       let err = "Error: " + msg
       err
@@ -205,14 +205,14 @@ Match with trailing comma and newlines
 ===================
 
 let result = match (value) {
-  Some(x) => x,
-  None => 0,
+  Some(x) => x
+  None => 0
 }
 
 let result2 = match (value) {
 
   Some(x) =>
-    x + 1,
+    x + 1
 
   None =>
     0
@@ -256,12 +256,12 @@ Match with mixed patterns
 ===================
 
 let result = match (value) {
-  Some(42) => "found answer",
-  Some(x) => "found " + x,
-  None => "nothing",
-  true => "boolean true",
-  "hello" => "string hello",
-  _ => "anything else",
+  Some(42) => "found answer"
+  Some(x) => "found " + x
+  None => "nothing"
+  true => "boolean true"
+  "hello" => "string hello"
+  _ => "anything else"
 }
 
 ---

@@ -110,6 +110,7 @@ This section tracks the implementation of major language features from the ANTLR
 #### Other Features
 
 - Comments (single-line and multi-line)
+- Updated match expression syntax
 
 ### TODO
 
@@ -119,5 +120,4 @@ The following features from the chicory.g4 grammar are still pending implementat
 - Function array types (e.g., `(number => boolean)[]`)
 - Destructuring patterns in assignment statements (record and array)
 - Parentless function expressions (e.g., `identifier => expr`)
-- Updated match expression syntax
 - Empty array syntax (`[]`)

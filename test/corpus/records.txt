@@ -105,7 +105,7 @@ Records with complex expressions
 const complex = {
   handler: (x) => x * 2,
   result: match (value) {
-    1 => "one",
+    1 => "one"
     _ => "other"
   },
   computed: {

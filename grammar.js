@@ -233,8 +233,7 @@ module.exports = grammar({
       '{',
       optional(seq(
         $.match_arm,
-        repeat(seq(',', $.match_arm)),
-        optional(',')
+        repeat($.match_arm)
       )),
       '}'
     ),
