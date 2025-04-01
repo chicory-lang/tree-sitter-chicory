@@ -58,6 +58,31 @@ const message = "hello"
     (string_literal)))
 
 ===================
+Number literals
+===================
+
+const positiveInteger = 42
+const negativeInteger = -10
+const positiveDecimal = 3.14
+const negativeDecimal = -2.718
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (number))
+  (const_declaration
+    (identifier)
+    (number))
+  (const_declaration
+    (identifier)
+    (number))
+  (const_declaration
+    (identifier)
+    (number)))
+
+===================
 Operation expressions
 ===================
 

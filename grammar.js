@@ -150,7 +150,7 @@ module.exports = grammar({
 
     string_literal: ($) => /"[^"]*"/,
 
-    number: ($) => /\d+/,
+    number: ($) => /-?\d+(\.\d+)?/,
 
     comment: ($) =>
       token(
