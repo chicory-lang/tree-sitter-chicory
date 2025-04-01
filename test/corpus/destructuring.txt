@@ -1,0 +1,53 @@
+===================
+Record destructuring patterns
+===================
+
+const { a, b, c } = { a: 1, b: 2, c: 3 }
+let { x, y } = point
+
+---
+
+(source_file
+  (const_declaration
+    (record_destructuring_pattern
+      (identifier)
+      (identifier)
+      (identifier))
+    (record_expression
+      (record_field_expression
+        (identifier)
+        (number))
+      (record_field_expression
+        (identifier)
+        (number))
+      (record_field_expression
+        (identifier)
+        (number))))
+  (let_assignment
+    (record_destructuring_pattern
+      (identifier)
+      (identifier))
+    (identifier)))
+
+===================
+Array destructuring patterns
+===================
+
+const [first, second] = [123, 456]
+let [x, y] = point
+
+---
+
+(source_file
+  (const_declaration
+    (array_destructuring_pattern
+      (identifier)
+      (identifier))
+    (array_expression
+      (number)
+      (number)))
+  (let_assignment
+    (array_destructuring_pattern
+      (identifier)
+      (identifier))
+    (identifier)))

@@ -105,7 +105,9 @@ This section tracks the implementation of major language features from the ANTLR
 #### Statements
 
 - Let assignments (e.g., `let x = 42`)
+  - With destructuring patterns (e.g., `let [a, b] = [1, 2]` or `let {x, y} = point`)
 - Const declarations (e.g., `const PI = 3.14`)
+  - With destructuring patterns (e.g., `const {a, b} = obj` or `const [first, second] = array`)
 - Assignment statements
 - Import statements
 - Export statements
@@ -121,5 +123,4 @@ The following features from the chicory.g4 grammar are still pending implementat
 
 - Array type expressions (e.g., `string[]`, `number[][]`)
 - Function array types (e.g., `(number => boolean)[]`)
-- Destructuring patterns in assignment statements (record and array)
 - Empty array syntax (`[]`)

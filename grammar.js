@@ -24,7 +24,11 @@ module.exports = grammar({
     let_assignment: ($) =>
       seq(
         "let",
-        field("name", $.identifier),
+        field("name", choice(
+          $.identifier,
+          $.record_destructuring_pattern,
+          $.array_destructuring_pattern
+        )),
         "=",
         field("value", $._expression),
       ),
@@ -32,7 +36,11 @@ module.exports = grammar({
     const_declaration: ($) =>
       seq(
         "const",
-        field("name", $.identifier),
+        field("name", choice(
+          $.identifier,
+          $.record_destructuring_pattern,
+          $.array_destructuring_pattern
+        )),
         "=",
         field("value", $._expression),
       ),
@@ -455,9 +463,28 @@ module.exports = grammar({
       commaSep1($.type_identifier),
       '>'
     )),
+
+    record_destructuring_pattern: ($) => seq(
+      '{',
+      commaSep1($.identifier),
+      optional(','),
+      '}'
+    ),
+
+    array_destructuring_pattern: ($) => seq(
+      '[',
+      commaSep1($.identifier),
+      optional(','),
+      ']'
+    ),
+
   },
 });
 
 function commaSep1(rule) {
   return seq(rule, repeat(seq(",", rule)));
+}
+
+function commaSep(rule) {
+  return optional(seq(rule, repeat(seq(",", rule))));
 }

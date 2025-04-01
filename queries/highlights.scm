@@ -66,6 +66,12 @@
 (index_expression
   "[" @punctuation.bracket
   "]" @punctuation.bracket)
+(array_destructuring_pattern
+  "[" @punctuation.bracket
+  "]" @punctuation.bracket)
+(record_destructuring_pattern
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
 
 ; Functions
 (function_expression) @function
