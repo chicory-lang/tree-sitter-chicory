@@ -61,9 +61,9 @@ const user = "world"
 // Function with block body and pattern matching
 const greet = (name, style) => {
   let greeting = match (style) {
-    Casual => "Hey",
-    Formal => "Hello",
-    Custom(text) => text,
+    Casual => "Hey"
+    Formal => "Hello"
+    Custom(text) => text
     _ => "Hi"
   }
   greeting + " " + name
@@ -75,18 +75,18 @@ const describe = (value) =>
     Some(42) => {
       let msg = "Found the answer!"
       msg
-    },
-    Some(x) => "Got " + x,
-    None => "Nothing here",
-    true => "Boolean true",
-    false => "Boolean false",
-    "hello" => "A greeting",
-    _ => "Something else",
+    }
+    Some(x) => "Got " + x
+    None => "Nothing here"
+    true => "Boolean true"
+    false => "Boolean false"
+    "hello" => "A greeting"
+    _ => "Something else"
   }
 
 const App = () =>
     match (user) {
-      "world" => <h1>{"Hello WORLD!"}</h1>,
+      "world" => <h1>{"Hello WORLD!"}</h1>
       _ => <h1>{"Hello " + user}</h1>
     }
 const rand = <table>{"boxlike"}</table> 
