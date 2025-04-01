@@ -448,3 +448,69 @@ type Mapper<A, B> = (A) => B
       (parameter_list_type
         (type_identifier))
       (type_identifier))))
+
+===================
+Named type parameters in function types
+===================
+
+type Callback = (name: string, age: number) => boolean
+type ComplexFunction = (config: { timeout: number, retries: number }) => string
+type MixedParams = (x: number, string, options: { debug: boolean }) => unit
+type NestedFunction = (callback: (value: number) => string) => boolean
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (function_type
+      (parameter_list_type
+        (named_type_param
+          (identifier)
+          (primitive_type))
+        (named_type_param
+          (identifier)
+          (primitive_type)))
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (function_type
+      (parameter_list_type
+        (named_type_param
+          (identifier)
+          (record_type
+            (record_field
+              (identifier)
+              (primitive_type))
+            (record_field
+              (identifier)
+              (primitive_type)))))
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (function_type
+      (parameter_list_type
+        (named_type_param
+          (identifier)
+          (primitive_type))
+        (primitive_type)
+        (named_type_param
+          (identifier)
+          (record_type
+            (record_field
+              (identifier)
+              (primitive_type)))))
+      (primitive_type)))
+  (type_definition
+    (type_identifier)
+    (function_type
+      (parameter_list_type
+        (named_type_param
+          (identifier)
+          (function_type
+            (parameter_list_type
+              (named_type_param
+                (identifier)
+                (primitive_type)))
+            (primitive_type))))
+      (primitive_type))))

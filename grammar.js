@@ -69,7 +69,16 @@ module.exports = grammar({
       field('return_type', $._type_expression)
     ),
 
-    parameter_list_type: ($) => prec.dynamic(1, commaSep1($._type_expression)),
+    parameter_list_type: ($) => prec.dynamic(1, commaSep1(choice(
+      $._type_expression,
+      $.named_type_param
+    ))),
+
+    named_type_param: ($) => seq(
+      field('name', $.identifier),
+      ':',
+      field('type', $._type_expression)
+    ),
 
     generic_type: ($) => prec(2, seq(
       field('base_type', $.type_identifier),

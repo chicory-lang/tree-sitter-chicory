@@ -9,3 +9,5 @@
 (generic_type) @indent
 (type_parameters) @indent
 (if_expression) @indent
+(parameter_list_type) @indent
+(named_type_param) @indent

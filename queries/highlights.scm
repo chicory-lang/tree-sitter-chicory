@@ -18,6 +18,10 @@
   ")" @punctuation.bracket
   "=>" @punctuation)
 (parameter_list_type) @type
+(named_type_param
+  name: (identifier) @variable.parameter
+  ":" @punctuation
+  type: (_) @type)
 (tuple_type
   "[" @punctuation.bracket
   "]" @punctuation.bracket)
