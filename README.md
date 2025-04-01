@@ -89,6 +89,9 @@ This section tracks the implementation of major language features from the ANTLR
   - Pattern matching with identifiers
 - Binary operations
 - Function calls
+- Function expressions
+  - Regular function expressions (e.g., `(x) => x * 2`)
+  - Parenless function expressions (e.g., `x => x * 2`)
 - Literals (number, string, boolean)
 - Identifiers
 - Parenthesized expressions
@@ -119,5 +122,4 @@ The following features from the chicory.g4 grammar are still pending implementat
 - Array type expressions (e.g., `string[]`, `number[][]`)
 - Function array types (e.g., `(number => boolean)[]`)
 - Destructuring patterns in assignment statements (record and array)
-- Parentless function expressions (e.g., `identifier => expr`)
 - Empty array syntax (`[]`)

@@ -112,12 +112,19 @@ module.exports = grammar({
         seq('(', $._expression, ')')
       ),
 
-    function_expression: ($) => seq(
-      '(',
-      optional($.parameter_list),
-      ')',
-      '=>',
-      $._expression
+    function_expression: ($) => choice(
+      seq(  // Regular function expression with parentheses
+        '(',
+        optional($.parameter_list),
+        ')',
+        '=>',
+        $._expression
+      ),
+      seq(  // Parenless function expression
+        $.identifier,
+        '=>',
+        $._expression
+      )
     ),
 
     call_expression: ($) => prec.left(3, seq(  // Higher precedence than binary_expression

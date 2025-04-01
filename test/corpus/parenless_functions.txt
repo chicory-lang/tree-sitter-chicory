@@ -1,0 +1,36 @@
+===================
+Parenless function expressions
+===================
+
+const square = a => a * a
+const add = a => a + a
+const identity = x => x
+
+export { square, add, identity }
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (function_expression
+      (identifier)
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (const_declaration
+    (identifier)
+    (function_expression
+      (identifier)
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (const_declaration
+    (identifier)
+    (function_expression
+      (identifier)
+      (identifier)))
+  (export_statement
+    (identifier)
+    (identifier)
+    (identifier)))
