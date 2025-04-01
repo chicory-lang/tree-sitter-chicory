@@ -93,6 +93,7 @@ This section tracks the implementation of major language features from the ANTLR
   - Regular function expressions (e.g., `(x) => x * 2`)
   - Parenless function expressions (e.g., `x => x * 2`)
 - Literals (number, string, boolean)
+- Array expressions (e.g., `[1, 2, 3]`, `[]`)
 - Identifiers
 - Parenthesized expressions
 - JSX expressions
@@ -123,4 +124,3 @@ The following features from the chicory.g4 grammar are still pending implementat
 
 - Array type expressions (e.g., `string[]`, `number[][]`)
 - Function array types (e.g., `(number => boolean)[]`)
-- Empty array syntax (`[]`)
