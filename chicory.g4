@@ -12,7 +12,7 @@ stmt
     ;
 
 assignStmt
-    : assignKwd IDENTIFIER '=' expr
+    : assignKwd assignTarget (':' typeExpr)? '=' expr
     ;
 
 // TODO: Force type identifier to begin with uppercase letter
@@ -25,12 +25,18 @@ typeParams
     ;
 
 typeExpr
+    : primaryTypeExpr ( '[]' )*
+    ;
+
+primaryTypeExpr
     : adtType
     | recordType
     | tupleType
     | primitiveType
     | functionType
     | genericTypeExpr
+    | IDENTIFIER
+    | '(' typeExpr ')'
     ;
 
 adtType: NL* '|'? adtOption (NL* '|' adtOption )* NL*;
@@ -46,11 +52,11 @@ adtTypeAnnotation: IDENTIFIER ':' (primitiveType | IDENTIFIER);
 
 recordType: '{' NL* recordTypeAnontation (',' NL* recordTypeAnontation)* ','? NL* '}';
 
-recordTypeAnontation: IDENTIFIER ':' (primitiveType | recordType | IDENTIFIER);
+recordTypeAnontation: IDENTIFIER ':' (primitiveType | recordType | IDENTIFIER | tupleType | functionType);
 
 tupleType: '[' NL* typeExpr (',' NL* typeExpr)* ','? NL* ']';
 
-primitiveType: 'number' | 'string' | 'boolean' | 'unit';
+primitiveType: 'number' | 'string' | 'boolean' | 'void';
 
 functionType: '(' NL* (typeParam (',' NL* typeParam)*)? NL* ')' '=>' NL* typeExpr;
 
@@ -64,12 +70,12 @@ genericTypeExpr
     ;
 
 importStmt
-    : 'import' IDENTIFIER 'from' STRING
-    | 'import' IDENTIFIER ',' destructuringImportIdentifier 'from' STRING
-    | 'import' destructuringImportIdentifier 'from' STRING
-    | 'bind' IDENTIFIER 'as' typeExpr 'from' STRING
-    | 'bind' bindingImportIdentifier 'from' STRING
-    | 'bind' IDENTIFIER 'as' typeExpr ',' bindingImportIdentifier 'from' STRING
+    : 'import' IDENTIFIER 'from' STRING                                     #ImportStatement
+    | 'import' IDENTIFIER ',' destructuringImportIdentifier 'from' STRING   #ImportStatement
+    | 'import' destructuringImportIdentifier 'from' STRING                  #ImportStatement
+    | 'bind' IDENTIFIER 'as' typeExpr 'from' STRING                         #BindStatement
+    | 'bind' bindingImportIdentifier 'from' STRING                          #BindStatement
+    | 'bind' IDENTIFIER 'as' typeExpr ',' bindingImportIdentifier 'from' STRING #BindStatement
     ;
 
 destructuringImportIdentifier:
@@ -84,23 +90,37 @@ bindingIdentifier:
     IDENTIFIER 'as' typeExpr
     ;
 
+assignTarget
+    : IDENTIFIER
+    | recordDestructuringPattern
+    | arrayDestructuringPattern
+    ;
+
+recordDestructuringPattern
+    : '{' NL* IDENTIFIER (',' NL* IDENTIFIER)* ','? NL* '}'
+    ;
+
+arrayDestructuringPattern
+    : '[' NL* IDENTIFIER (',' NL* IDENTIFIER)* ','? NL* ']'
+    ;
+
 exportStmt
     : 'export' '{' NL* IDENTIFIER (',' NL* IDENTIFIER)* ','? NL* '}'
     ;
 
-expr: primaryExpr tailExpr*; 
+expr: primaryExpr tailExpr*;
 
 primaryExpr
     : ifExpr            #IfExpression
     | funcExpr          #FunctionExpression
     | jsxExpr           #JsxExpression
     | matchExpr         #MatchExpression
-    | blockExpr         #BlockExpression
     | recordExpr        #RecordExpression
+    | blockExpr         #BlockExpression
     | arrayLikeExpr     #ArrayLikeExpression
     | IDENTIFIER        #IdentifierExpression
     | literal           #LiteralExpression
-    | '(' expr ')'      #ParenExpression
+    | '(' NL* expr NL* ')'      #ParenExpression
     ;
 
 tailExpr
@@ -117,7 +137,8 @@ justIfExpr
     ;
 
 funcExpr
-    : '(' NL* parameterList? NL* ')' '=>' NL* expr
+    : '(' NL* parameterList? NL* ')' '=>' NL* expr  #ParenFunctionExpression
+    | IDENTIFIER '=>' NL* expr                      #ParenlessFunctionExpression
     ;
 
 parameterList
@@ -129,7 +150,7 @@ callExpr
     ;
 
 matchExpr
-    : 'match' '(' expr ')' '{' NL* matchArm (',' NL* matchArm)* ','? NL* '}'
+    : 'match' '(' expr ')' '{' NL* matchArm (NL+ matchArm)* NL* '}'
     ;
 
 matchArm
@@ -137,9 +158,10 @@ matchArm
     ;
 
 matchPattern
-    : IDENTIFIER                    #BareAdtMatchPattern
+    : IDENTIFIER '(' '_' ')'        #AdtWithWildcardMatchPattern
     | IDENTIFIER '(' IDENTIFIER ')' #AdtWithParamMatchPattern
     | IDENTIFIER '(' literal ')'    #AdtWithLiteralMatchPattern
+    | IDENTIFIER                    #BareAdtMatchPattern
     | '_'                           #WildcardMatchPattern
     | literal                       #LiteralMatchPattern
     ;
@@ -156,6 +178,7 @@ recordKvExpr: IDENTIFIER ':' expr;
 
 arrayLikeExpr
     : '[' NL* (expr NL* (',' NL* expr)*)? NL* ','? NL* ']'
+    | '[]'
     ;
 
 assignKwd
@@ -223,7 +246,7 @@ OPERATOR: '+' | '-' | '*' | '/' | '==' | '!=' | '<' | '>' | '<=' | '>=' | '&&' |
 // TODO: Handle escaping
 STRING: '"' (~["\n])* '"';
 
-NUMBER: [0-9]+ ('.' [0-9]+)?;
+NUMBER: '-'? [0-9]+ ('.' [0-9]+)?;
 
 NL: '\n';
 WS: [ \r\t]+ -> channel(HIDDEN);
