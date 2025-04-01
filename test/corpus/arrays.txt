@@ -122,3 +122,63 @@ const complex = [
         (binary_expression
           (identifier)
           (number))))))
+
+===================
+Index expressions
+===================
+
+const first = numbers[0]
+const nested = matrix[1][2]
+const dynamic = array[i + 1]
+const computed = items[getIndex()]
+const objectProp = users[userId].name
+const complex = data[getSection()][getIndex()].values[0]
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (index_expression
+      (identifier)
+      (number)))
+  (const_declaration
+    (identifier)
+    (index_expression
+      (index_expression
+        (identifier)
+        (number))
+      (number)))
+  (const_declaration
+    (identifier)
+    (index_expression
+      (identifier)
+      (binary_expression
+        (identifier)
+        (number))))
+  (const_declaration
+    (identifier)
+    (index_expression
+      (identifier)
+      (call_expression
+        (identifier))))
+  (const_declaration
+    (identifier)
+    (member_expression
+      (index_expression
+        (identifier)
+        (identifier))
+      (identifier)))
+  (const_declaration
+    (identifier)
+    (index_expression
+      (member_expression
+        (index_expression
+          (index_expression
+            (identifier)
+            (call_expression
+              (identifier)))
+          (call_expression
+            (identifier)))
+        (identifier))
+      (number))))

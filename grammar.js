@@ -92,6 +92,7 @@ module.exports = grammar({
       $.binary_expression,
       $.call_expression,
       $.member_expression,  // Add member expression as a valid expression
+      $.index_expression,   // Add index expression as a valid expression
       $.block_expression,
       $.if_expression,
       $.match_expression,
@@ -426,6 +427,13 @@ module.exports = grammar({
       field('object', $._expression),
       '.',
       field('property', $.identifier)
+    )),
+
+    index_expression: ($) => prec.left(3, seq(
+      field('array', $._expression),
+      '[',
+      field('index', $._expression),
+      ']'
     )),
 
     type_parameters: ($) => prec(2, seq(

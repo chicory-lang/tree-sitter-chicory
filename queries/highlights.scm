@@ -63,6 +63,9 @@
 (record_expression
   "{" @punctuation.bracket
   "}" @punctuation.bracket)
+(index_expression
+  "[" @punctuation.bracket
+  "]" @punctuation.bracket)
 
 ; Functions
 (function_expression) @function
