@@ -57,7 +57,7 @@ module.exports = grammar({
         $.type_identifier
       ),
 
-    primitive_type: ($) => choice("number", "string", "boolean", "unit"),
+    primitive_type: ($) => choice("number", "string", "boolean", "void"),
 
     type_identifier: ($) => $._upper_identifier,
 

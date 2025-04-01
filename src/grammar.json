@@ -190,7 +190,7 @@
         },
         {
           "type": "STRING",
-          "value": "unit"
+          "value": "void"
         }
       ]
     },

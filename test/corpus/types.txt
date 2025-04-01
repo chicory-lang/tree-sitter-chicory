@@ -324,12 +324,12 @@ type MultiField =
             (type_identifier)))))))
 
 ===================
-Unit type
+Void type
 ===================
 
-type Empty = unit
-type MaybeValue = | Some(number) | None(unit)
-type Procedure = () => unit
+type Empty = void
+type MaybeValue = | Some(number) | None(void)
+type Procedure = () => void
 
 ---
 
@@ -455,7 +455,7 @@ Named type parameters in function types
 
 type Callback = (name: string, age: number) => boolean
 type ComplexFunction = (config: { timeout: number, retries: number }) => string
-type MixedParams = (x: number, string, options: { debug: boolean }) => unit
+type MixedParams = (x: number, string, options: { debug: boolean }) => void
 type NestedFunction = (callback: (value: number) => string) => boolean
 
 ---
