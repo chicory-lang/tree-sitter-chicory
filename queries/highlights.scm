@@ -125,5 +125,9 @@
 ["," ] @punctuation
 ["|" (wildcard) ] @operator
 
+; Operators
+(operation_expression
+  operator: _ @operator)
+
 ; Comments
 (comment) @comment

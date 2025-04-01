@@ -93,6 +93,7 @@ module.exports = grammar({
       $.call_expression,
       $.member_expression,  // Add member expression as a valid expression
       $.index_expression,   // Add index expression as a valid expression
+      $.operation_expression, // Add operation expression as a valid expression
       $.block_expression,
       $.if_expression,
       $.match_expression,
@@ -131,7 +132,7 @@ module.exports = grammar({
     ),
 
     binary_expression: ($) => {
-      const operators = ['>', '<', '+', '*', '>=', '<=', '==', '!=']
+      const operators = ['>', '<', '+', '*', '>=', '<=', '==', '!=', '-']
       const table = operators.map(operator => prec.left(1,  // Lower precedence than call_expression
         seq(
           field('left', choice($._expression, $.string_literal)),
@@ -435,6 +436,13 @@ module.exports = grammar({
       field('index', $._expression),
       ']'
     )),
+
+    operation_expression: ($) => prec.right(4, seq(
+      field('operator', alias(choice('-', '!', '~', '++', '--'), $.operator)),
+      field('operand', $._expression)
+    )),
+
+    operator: ($) => choice('-', '!', '~', '++', '--'),
 
     type_parameters: ($) => prec(2, seq(
       '<',

@@ -56,3 +56,42 @@ const message = "hello"
   (const_declaration
     (identifier)
     (string_literal)))
+
+===================
+Operation expressions
+===================
+
+const negation = -value
+const logicalNot = !condition
+const bitwiseNot = ~flags
+const increment = ++counter
+const decrement = --index
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (operation_expression
+      (operator)
+      (identifier)))
+  (const_declaration
+    (identifier)
+    (operation_expression
+      (operator)
+      (identifier)))
+  (const_declaration
+    (identifier)
+    (operation_expression
+      (operator)
+      (identifier)))
+  (const_declaration
+    (identifier)
+    (operation_expression
+      (operator)
+      (identifier)))
+  (const_declaration
+    (identifier)
+    (operation_expression
+      (operator)
+      (identifier))))
