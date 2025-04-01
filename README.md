@@ -71,7 +71,7 @@ This section tracks the implementation of major language features from the ANTLR
 
 #### Types
 
-- Primitive types (number, string, boolean)
+- Primitive types (number, string, boolean, void)
 - Tuple types (e.g., `[number, string]`)
 - Record types (e.g., `{ x: number, y: number }`)
 - Algebraic Data Types (ADTs)
@@ -79,6 +79,7 @@ This section tracks the implementation of major language features from the ANTLR
   - Variants with primitive types (e.g., `type Option = None | Some(number)`)
   - Variants with record fields (e.g., `type Result = Ok(string) | Error({ message: string })`)
 - Type references (uppercase identifiers)
+- Negative numbers (e.g., `-42`, `-3.14`)
 
 #### Expressions
 
@@ -110,3 +111,13 @@ This section tracks the implementation of major language features from the ANTLR
 
 - Comments (single-line and multi-line)
 
+### TODO
+
+The following features from the chicory.g4 grammar are still pending implementation:
+
+- Array type expressions (e.g., `string[]`, `number[][]`)
+- Function array types (e.g., `(number => boolean)[]`)
+- Destructuring patterns in assignment statements (record and array)
+- Parentless function expressions (e.g., `identifier => expr`)
+- Updated match expression syntax
+- Empty array syntax (`[]`)
