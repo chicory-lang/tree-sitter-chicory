@@ -2446,7 +2446,7 @@
         "value": -1,
         "content": {
           "type": "PATTERN",
-          "value": "[^<>{}\\s][^<>{}]*"
+          "value": "[^<{]+"
         }
       }
     },

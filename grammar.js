@@ -422,7 +422,7 @@ module.exports = grammar({
       '}'
     ),
 
-    jsx_text: ($) => token(prec(-1, /[^<>{}\s][^<>{}]*/)),
+    jsx_text: ($) => token(prec(-1, /[^<{]+/)),
 
     member_expression: ($) => prec.left(3, seq(
       field('object', $._expression),
