@@ -18,6 +18,7 @@ module.exports = grammar({
         $.type_definition,
         $.import_statement,
         $.export_statement,
+        $.global_declaration,
         $._expression  // Add expressions as valid statements
       ),
 
@@ -43,6 +44,16 @@ module.exports = grammar({
         )),
         "=",
         field("value", $._expression),
+      ),
+
+    global_declaration: ($) =>
+      seq(
+        "global",
+        field("name", $.identifier),
+        choice(
+          seq("=", field("value", $._expression)),
+          seq("as", field("type", $._type_expression))
+        )
       ),
 
     type_definition: ($) =>
