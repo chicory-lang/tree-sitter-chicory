@@ -50,10 +50,7 @@ module.exports = grammar({
       seq(
         "global",
         field("name", $.identifier),
-        choice(
-          seq("=", field("value", $._expression)),
-          seq("as", field("type", $._type_expression))
-        )
+        seq("as", field("type", $._type_expression))
       ),
 
     type_definition: ($) =>
