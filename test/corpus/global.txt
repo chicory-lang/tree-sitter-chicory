@@ -1,0 +1,188 @@
+===================
+Simple global with primitive type
+===================
+
+global myNumber as number
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (primitive_type)))
+
+===================
+Global with function type
+===================
+
+global add as (number, number) => number
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (function_type
+      (parameter_list_type
+        (primitive_type)
+        (primitive_type))
+      (primitive_type))))
+
+===================
+Global with record type - console example
+===================
+
+global console as {
+  log: (string) => void,
+  warn: (string) => void
+}
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type))
+          (primitive_type)))
+      (record_field
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type))
+          (primitive_type))))))
+
+===================
+Global with generic function type
+===================
+
+global warn as (T) => void
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (function_type
+      (parameter_list_type
+        (type_identifier))
+      (primitive_type))))
+
+===================
+Global with complex record type - mixed functions
+===================
+
+global console as {
+  log: (string) => void,
+  warn: (T) => void,
+  error: (string, number) => void
+}
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type))
+          (primitive_type)))
+      (record_field
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (type_identifier))
+          (primitive_type)))
+      (record_field
+        (identifier)
+        (function_type
+          (parameter_list_type
+            (primitive_type)
+            (primitive_type))
+          (primitive_type))))))
+
+===================
+Global with generic type
+===================
+
+global myArray as Array<string>
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (generic_type
+      (type_identifier)
+      (primitive_type))))
+
+===================
+Global with tuple type
+===================
+
+global coords as [number, number]
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (tuple_type
+      (primitive_type)
+      (primitive_type))))
+
+===================
+Multiple globals
+===================
+
+global window as { location: string }
+global document as { title: string }
+global process as { env: { NODE_ENV: string } }
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))))
+  (global_declaration
+    (identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))))
+  (global_declaration
+    (identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (record_type
+          (record_field
+            (identifier)
+            (primitive_type)))))))
+
+===================
+Global with custom ADT type
+===================
+
+global myValue as Result<string, Error>
+
+---
+
+(source_file
+  (global_declaration
+    (identifier)
+    (generic_type
+      (type_identifier)
+      (primitive_type)
+      (type_identifier))))
