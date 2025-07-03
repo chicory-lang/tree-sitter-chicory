@@ -63,6 +63,28 @@ Note: You can also point the parser to a local copy of the `tree-sitter-chicory`
 
 For more information, see https://github.com/nvim-treesitter/nvim-treesitter/#adding-parsers
 
+## Development
+
+Clone the repo and install the `tree-sitter` CLI tool. You can do this via npm:
+
+```bash
+npm install -g tree-sitter-cli
+```
+
+Then, you can run the following commands to generate the parser and test it:
+
+```bash
+# Generate the parser
+tree-sitter generate
+# Test the parser with a sample file
+tree-sitter parse path/to/sample.chic
+# Run the tests
+tree-sitter test
+```
+
+If you want to add syntax, modify `grammar.js` and add tests to `test/corpus/`. The tests are written in a format that Tree-sitter can understand, and you can run them using the `tree-sitter test` command.
+
+
 ## ANTLR Grammar Implementation Progress
 
 This section tracks the implementation of major language features from the ANTLR grammar.
@@ -112,6 +134,7 @@ This section tracks the implementation of major language features from the ANTLR
 - Assignment statements
 - Import statements
 - Export statements
+- Global statements
 
 #### Other Features
 
