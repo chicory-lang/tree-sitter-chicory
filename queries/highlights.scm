@@ -6,6 +6,7 @@
 "match" @keyword.control.conditional
 "import" @keyword.control.import
 "export" @keyword.control.import
+"global" @keyword.control.import
 "from" @keyword.control.import
 "bind" @keyword.control.import
 "as" @keyword.control.import
