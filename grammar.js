@@ -70,7 +70,9 @@ module.exports = grammar({
         $.primitive_type,
         $.function_type,
         $.generic_type,
-        $.type_identifier
+        $.type_identifier,
+        $.array_type,
+        seq('(', $._type_expression, ')')
       ),
 
     primitive_type: ($) => choice("number", "string", "boolean", "void"),
@@ -187,6 +189,11 @@ module.exports = grammar({
         optional(","),
         "]",
       ),
+
+    array_type: ($) => prec.left(seq(
+        field('element', $._type_expression),
+        '[]'
+    )),
 
     record_type: ($) =>
       seq("{", field("fields", commaSep1($.record_field)), optional(","), "}"),
