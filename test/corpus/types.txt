@@ -514,3 +514,68 @@ type NestedFunction = (callback: (value: number) => string) => boolean
                 (primitive_type)))
             (primitive_type))))
       (primitive_type))))
+
+===================
+Optional record fields
+===================
+
+type MaybeNumber = { value?: number }
+type Person = { name: string, age?: number }
+type Config = {
+  debug?: boolean,
+  retries: number,
+  timeout?: number,
+}
+type NestedOptional = { meta?: { created?: string, updated: string }, active: boolean }
+
+---
+
+(source_file
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (optional)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (optional)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (optional)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (primitive_type))
+      (record_field
+        (identifier)
+        (optional)
+        (primitive_type))))
+  (type_definition
+    (type_identifier)
+    (record_type
+      (record_field
+        (identifier)
+        (optional)
+        (record_type
+          (record_field
+            (identifier)
+            (optional)
+            (primitive_type))
+          (record_field
+            (identifier)
+            (primitive_type))))
+      (record_field
+        (identifier)
+        (primitive_type)))))

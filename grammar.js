@@ -184,7 +184,9 @@ module.exports = grammar({
       seq("{", field("fields", commaSep1($.record_field)), optional(","), "}"),
 
     record_field: ($) =>
-      seq(field("name", $.identifier), optional("?"), ":", field("type", $._type_expression)),
+      seq(field("name", $.identifier), optional($.optional), ":", field("type", $._type_expression)),
+
+    optional: ($) => "?",
 
     adt_type: ($) => prec.left(1, seq(
       optional('|'),
